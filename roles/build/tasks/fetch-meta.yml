@@ -1,0 +1,22 @@
+---
+- name: "{{ plugin.name }} | meta | Lookup Release"
+  github_release:
+    repo: hyperconverged-cluster-operator
+    user: kubevirt
+    action: latest_release
+  register: hyperconverged_cluster_operator_release
+
+- name: "{{ plugin.name }} | meta | Build Manifests - Release {{ hyperconverged_cluster_operator_release.tag }}"
+  get_url:
+    url: '{{ url }}/{{ release }}/{{ item }}'
+    dest: '{{ dest }}'
+  vars:
+    url: '{{ import.meta.url }}'
+    dest: '{{ import.meta.dest }}'
+    release: 'master'
+   #release: '{{ hyperconverged_cluster_operator_release.tag }}'
+  with_items:
+    - '{{ import.meta.webhooks }}' 
+    - '{{ import.meta.service_account }}' 
+#   - '{{ import.meta.cluster_role_binding }}' 
+#   - '{{ import.meta.cluster_role }}' 

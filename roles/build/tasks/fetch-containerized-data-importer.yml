@@ -1,0 +1,19 @@
+---
+- name: "{{ plugin.name }} | containerized-data-importer | Lookup Release"
+  github_release:
+    repo: containerized-data-importer
+    user: kubevirt
+    action: latest_release
+  register: containerized_data_importer_release
+
+- name: "{{ plugin.name }} | containerized-data-importer | Build Manifests - Release {{ containerized_data_importer_release.tag }}"
+  get_url:
+    dest: '{{ dest }}'
+    url: '{{ url }}/{{ release }}/{{ item }}'
+  vars:
+    url: '{{ import.containerized_data_importer.url }}'
+    dest: '{{ import.containerized_data_importer.dest }}'
+    release: '{{ containerized_data_importer_release.tag }}'
+  with_items:
+    - '{{ import.containerized_data_importer.cr }}' 
+    - '{{ import.containerized_data_importer.operator }}' 

@@ -1,0 +1,8 @@
+#!/usr/local/bin/ansible-playbook
+- hosts: konductor
+  gather_facts: no
+# environment:
+#   PATH: '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  tasks:
+    - import_role:
+        name: build

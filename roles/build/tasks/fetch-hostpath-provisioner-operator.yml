@@ -1,0 +1,21 @@
+---
+- name: "{{ plugin.name }} | hostpath-provisioner-operator | Lookup Release"
+  github_release:
+    repo: hostpath-provisioner-operator
+    user: kubevirt
+    action: latest_release
+  register: hostpath_provisioner_release
+
+- name: "{{ plugin.name }} | hostpath-provisioner-operator | Build Manifests - Release {{ hostpath_provisioner_release.tag }}"
+  get_url:
+    url: '{{ url }}/{{ release }}/{{ item }}'
+    dest: '{{ dest }}'
+  vars:
+    url: '{{ import.hostpath_provisioner.url }}'
+    dest: '{{ import.hostpath_provisioner.dest }}'
+    release: '{{ hostpath_provisioner_release.tag }}'
+  with_items:
+    - '{{ import.hostpath_provisioner.storageclass }}' 
+    - '{{ import.hostpath_provisioner.namespace }}' 
+    - '{{ import.hostpath_provisioner.operator }}' 
+    - '{{ import.hostpath_provisioner.cr }}' 

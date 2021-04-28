@@ -1,0 +1,34 @@
+name: Workflow Dispatcher
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  push:
+    paths-ignore:
+    - 'docs/**'
+    - '**.md'
+    branches: 
+      - master
+  pull_request:
+    paths-ignore:
+    - 'docs/**'
+    - '**.md'
+    branches: 
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build Manifests
+      run: |
+        TERM=screen-256color ./hack/build.sh
+
+    - name: Push Updates
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git stage -A
+        git commit -m "auto updates" --all 2>&1 || true
+        git push origin master

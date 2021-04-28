@@ -1,0 +1,11 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: cdi
+metadata:
+  name: containerized-data-importer
+commonLabels:
+  app: kargo
+resources:
+- cdi-operator.yaml
+- cdi-cr.yaml

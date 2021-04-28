@@ -1,0 +1,46 @@
+---
+src: 'github.com/ContainerCraft/Kargo'
+plugin:
+  name: 'CCIO | Kargo Builder | {{ src }}'
+run_path: .
+dir:
+  tmp: '/tmp/kargo'
+  root: '{{ run_path }}'
+  source: '{{ run_path }}'
+  release: '{{ run_path }}/release'
+import:
+  network_addons:
+    operator: 'operator.yaml'
+    namespace: 'namespace.yaml'
+    crd: 'network-addons-config.crd.yaml'
+    config: 'network-addons-config-example.cr.yaml'
+    dest: '{{ dir.source }}/cluster-network-addons'
+    url: 'https://github.com/kubevirt/cluster-network-addons-operator/releases/download'
+  containerized_data_importer:
+    cr: 'cdi-cr.yaml'
+    operator: 'cdi-operator.yaml'
+    dest: '{{ dir.source }}/cdi'
+    url: 'https://github.com/kubevirt/containerized-data-importer/releases/download'
+  hostpath_provisioner:
+    cr: 'hostpathprovisioner_cr.yaml'
+    operator: 'operator.yaml'
+    namespace: 'namespace.yaml'
+    storageclass: 'storageclass-wffc.yaml'
+    dest: '{{ dir.source }}/hostpath-provisioner'
+    url: 'https://github.com/kubevirt/hostpath-provisioner-operator/releases/download'
+  cert_manager:
+    operator: 'deploy/cert-manager.yaml'
+    dest: '{{ dir.source }}/cert-manager'
+    url: 'https://raw.githubusercontent.com/kubevirt/hyperconverged-cluster-operator'
+  meta:
+    webhooks: 'deploy/webhooks.yaml'
+    service_account: 'deploy/service_account.yaml'
+   #cluster_role: 'deploy/cluster_role.yaml'
+   #cluster_role_binding: 'deploy/cluster_role_binding.yaml'
+    url: 'https://raw.githubusercontent.com/kubevirt/hyperconverged-cluster-operator'
+    dest: '{{ dir.source }}/meta'
+  kubevirt:
+    cr: 'kubevirt-cr.yaml'
+    operator: 'kubevirt-operator.yaml'
+    dest: '{{ dir.source }}/kubevirt'
+    url: 'https://github.com/kubevirt/kubevirt/releases/download'

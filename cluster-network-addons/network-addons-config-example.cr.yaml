@@ -1,0 +1,35 @@
+---
+apiVersion: networkaddonsoperator.network.kubevirt.io/v1
+kind: NetworkAddonsConfig
+metadata:
+  name: cluster
+spec:
+  imagePullPolicy: IfNotPresent
+  kubeMacPool: {}
+  linuxBridge: {}
+  macvtap: {}
+  multus: {}
+  nmstate: {}
+  ovs: {}
+  ##############################################################################
+  # CCIO Appended
+  ##############################################################################
+  selfSignConfiguration:
+    caRotateInterval: 168h
+    caOverlapInterval: 24h
+    certRotateInterval: 24h
+    certOverlapInterval: 8h
+  placementConfiguration:
+    workloads:
+      nodeSelector:
+        node-role.kubernetes.io/worker: ""
+    infra:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/edge
+                operator: Exists
+              - key: node-role.kubernetes.io/worker
+                operator: Exists

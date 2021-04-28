@@ -1,0 +1,21 @@
+---
+- name: "{{ plugin.name }} | tree.yml"
+  include_tasks: tree.yml
+
+- name: "{{ plugin.name }} | fetch-meta.yml"
+  include_tasks: fetch-meta.yml
+
+- name: "{{ plugin.name }} | fetch-cert-manager.yml"
+  include_tasks: fetch-cert-manager.yml
+
+- name: "{{ plugin.name }} | fetch-cluster-network-addons.yml"
+  include_tasks: fetch-cluster-network-addons.yml
+
+- name: "{{ plugin.name }} | fetch-hostpath-provisioner-operator.yml"
+  include_tasks: fetch-hostpath-provisioner-operator.yml
+
+- name: "{{ plugin.name }} | fetch-containerized-data-importer.yml"
+  include_tasks: fetch-containerized-data-importer.yml
+
+- name: "{{ plugin.name }} | fetch-kubevirt.yml"
+  include_tasks: fetch-kubevirt.yml

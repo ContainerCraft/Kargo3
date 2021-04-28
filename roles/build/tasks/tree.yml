@@ -1,0 +1,15 @@
+---
+- name: '{{ plugin.name }} | file | Create Directory Structure' 
+  file:
+    path: '{{ item }}'
+    state: directory
+  with_items:
+    - '{{ dir.tmp }}'
+    - '{{ dir.source }}'
+    - '{{ import.meta.dest }}'
+    - '{{ import.kubevirt.dest }}'
+    - '{{ import.cert_manager.dest }}'
+    - '{{ import.network_addons.dest }}'
+    - '{{ import.hostpath_provisioner.dest }}'
+    - '{{ import.containerized_data_importer.dest }}'
+#   - '{{ import..dest }}'

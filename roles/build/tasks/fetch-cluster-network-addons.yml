@@ -1,0 +1,32 @@
+---
+- name: "{{ plugin.name }} | cluster-network-addons | Lookup Release"
+  github_release:
+    repo: cluster-network-addons-operator
+    user: kubevirt
+    action: latest_release
+  register: network_additions_release
+
+- name: '{{ plugin.name }} | cluster-network-addons | Fetch Source Config - Release {{ network_additions_release.tag }}'
+  get_url:
+    url: '{{ import.network_addons.url }}/{{ release }}/{{ item }}'
+    dest: '{{ dir.tmp }}'
+  vars:
+    release: '{{ network_additions_release.tag }}'
+  with_items:
+    - '{{ import.network_addons.config }}' 
+
+- name: '{{ plugin.name }} | cluster-network-addons | Template Custom Config - Release {{ network_additions_release.tag }}'
+  template:
+    src: 'network-addons-config.cr.yml.j2'
+    dest: '{{ import.network_addons.dest }}/{{ import.network_addons.config }}'
+
+- name: '{{ plugin.name }} | cluster-network-addons | Build Manifests - Release {{ network_additions_release.tag }}'
+  get_url:
+    url: '{{ import.network_addons.url }}/{{ release }}/{{ item }}'
+    dest: '{{ import.network_addons.dest }}'
+  vars:
+    release: '{{ network_additions_release.tag }}'
+  with_items:
+    - '{{ import.network_addons.namespace }}' 
+    - '{{ import.network_addons.operator }}' 
+    - '{{ import.network_addons.crd }}' 

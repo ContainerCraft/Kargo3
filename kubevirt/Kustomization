@@ -1,0 +1,11 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kubevirt
+metadata:
+  name: kubevirt
+commonLabels:
+  app: kargo
+resources:
+- kubevirt-cr.yaml
+- kubevirt-operator.yaml

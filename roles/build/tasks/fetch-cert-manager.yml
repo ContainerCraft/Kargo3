@@ -1,0 +1,20 @@
+---
+- name: "{{ plugin.name }} | cert-manager | Lookup Release"
+  github_release:
+    repo: hyperconverged-cluster-operator
+    user: kubevirt
+    action: latest_release
+  register: hyperconverged_cluster_operator_release
+
+- name: "{{ plugin.name }} | cert-manager | Build Manifests - Release {{ hyperconverged_cluster_operator_release.tag }}"
+  get_url:
+    url: '{{ url }}/{{ release }}/{{ item }}'
+    dest: '{{ dest }}'
+  vars:
+    url: '{{ import.cert_manager.url }}'
+    dest: '{{ import.cert_manager.dest }}'
+    release: 'master'
+   #release: '{{ hyperconverged_cluster_operator_release.tag }}'
+  with_items:
+    - '{{ import.cert_manager.operator }}' 
+

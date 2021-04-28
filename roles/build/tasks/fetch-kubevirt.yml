@@ -1,0 +1,19 @@
+---
+- name: "{{ plugin.name }} | kubevirt | Lookup Release"
+  github_release:
+    repo: kubevirt
+    user: kubevirt
+    action: latest_release
+  register: kubevirt_release
+
+- name: "{{ plugin.name }} | kubevirt | Build Manifests - Release {{ kubevirt_release.tag }}"
+  get_url:
+    url: '{{ url }}/{{ release }}/{{ item }}'
+    dest: '{{ dest }}'
+  vars:
+    url: '{{ import.kubevirt.url }}'
+    dest: '{{ import.kubevirt.dest }}'
+    release: '{{ kubevirt_release.tag }}'
+  with_items:
+    - '{{ import.kubevirt.operator }}' 
+    - '{{ import.kubevirt.cr }}' 
