@@ -22,12 +22,12 @@
 kubectl kustomize https://github.com/ContainerCraft/Kargo.git | kubectl apply -f -
 ```
 
-## Have fun experimenting with your new hypervisor!
+### Have fun experimenting with your new hypervisor!
   - [Example Definitions]
 
 -------------------------------------------------------------------------------
-References:
-  - Example kubeadm k8s development setup
+## References:
+  - [Example kubeadm k8s development setup]
 
 [Example kubeadm k8s development setup]:https://github.com/ContainerCraft/Kargo/blob/master/docs/Dev.md
 [Example Definitions]:https://github.com/ContainerCraft/qubo/tree/main/wip
