@@ -27,6 +27,6 @@
   vars:
     release: '{{ network_additions_release.tag }}'
   with_items:
-    - '{{ import.network_addons.namespace }}' 
+#   - '{{ import.network_addons.namespace }}' 
     - '{{ import.network_addons.operator }}' 
     - '{{ import.network_addons.crd }}' 

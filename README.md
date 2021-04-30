@@ -50,3 +50,6 @@ codebases including Kargo intend to bridge.
 
 ### Non-Goals: (for now)
   - End to end production ready best practices
+
+## [Quick Start Guide]
+[Quick Start Guide]:./docs/Quickstart.md

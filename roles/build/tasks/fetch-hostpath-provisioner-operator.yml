@@ -16,6 +16,6 @@
     release: '{{ hostpath_provisioner_release.tag }}'
   with_items:
     - '{{ import.hostpath_provisioner.storageclass }}' 
-    - '{{ import.hostpath_provisioner.namespace }}' 
+#   - '{{ import.hostpath_provisioner.namespace }}' 
     - '{{ import.hostpath_provisioner.operator }}' 
     - '{{ import.hostpath_provisioner.cr }}' 
