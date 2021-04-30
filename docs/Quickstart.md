@@ -2,7 +2,8 @@
 
 ### Prereqs:
   - Hardware with Intel VTd (enabled)
-  - KubeVirt compatible K8s [example]
+  - Fedora Server 34 clean install
+  - KubeVirt compatible K8s ([example])
 
 ## On a single node 'cluster':
   0. Label Node
@@ -23,4 +24,9 @@ kubectl kustomize https://github.com/ContainerCraft/Kargo.git | kubectl apply -f
 ### Have fun experimenting with your new hypervisor!
   - [Example Definitions]
 
+-------------------------------------------------------------------------------
+## References:
+  - [Example kubeadm k8s development setup]
+
 [example]:https://github.com/ContainerCraft/Kargo/blob/master/docs/Dev.md
+[Example Definitions]:https://github.com/ContainerCraft/qubo/tree/main/wip
