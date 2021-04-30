@@ -30,4 +30,5 @@ This will help setup a non-prod kubevirt capable kubeadm install.
 ```
   ./06-calico.sh
 ```
-## Continue with [Kargo Quickstart]:
+## Continue with [Kargo Quickstart]
+[Kargo Quickstart]:https://github.com/ContainerCraft/Kargo/blob/master/docs/Quickstart.md
