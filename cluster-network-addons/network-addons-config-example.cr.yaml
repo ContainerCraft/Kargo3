@@ -29,7 +29,5 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: node-role.kubernetes.io/edge
-                operator: Exists
               - key: node-role.kubernetes.io/worker
                 operator: Exists
