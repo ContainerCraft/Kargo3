@@ -1,7 +1,7 @@
 # Kargo Quick Start
 ## Host K8s & OS Support:
-  - Fedora 34+ with kubeadm [example](https://github.com/ContainerCraft/Kargo/blob/master/docs/kubeadm.md)
-  - Ubuntu 21.04+ with [microk8s] snap (instructions below)
+  - Fedora Server 34+ with kubeadm [example](https://github.com/ContainerCraft/Kargo/blob/master/docs/kubeadm.md)
+  - Ubuntu Server 21.04+ with [microk8s] snap (instructions below)
     
 ## Hardware:
   - Minimum 16GB RAM
