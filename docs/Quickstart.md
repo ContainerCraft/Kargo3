@@ -71,6 +71,7 @@ sudo usermod -aG microk8s `whoami` ; chown -fR `whoami` ~/.kube && bash
 ```sh
 sudo snap install kubectl --classic --channel=1.21/edge
 mkdir -p ~/.kube && touch ~/.kube/config && sudo microk8s config view >> ~/.kube/config
+kubectl --context microk8s get all -A
 ```
 
 ### Have fun experimenting with your new hypervisor!
