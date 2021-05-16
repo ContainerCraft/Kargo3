@@ -65,7 +65,7 @@ sudo microk8s status --wait-ready && sudo reboot
 ## OPTIONAL:
 ### Set Permissions
 ```sh
-sudo usermod -aG microk8s $USER ; chown -fR microk8s $USER ~/.kube && bash
+sudo usermod -aG microk8s whoami ; chown -fR `whoami` ~/.kube && bash
 ```
 ### Install kubectl and set kubeconfig
 ```sh
