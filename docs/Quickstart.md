@@ -65,12 +65,12 @@ sudo microk8s status --wait-ready && sudo reboot
 ## OPTIONAL:
 ### Set Permissions
 ```sh
-sudo usermod -aG microk8s whoami ; chown -fR `whoami` ~/.kube && bash
+sudo usermod -aG microk8s `whoami` ; chown -fR `whoami` ~/.kube && bash
 ```
 ### Install kubectl and set kubeconfig
 ```sh
 sudo snap install kubectl --classic --channel=1.21/edge
-mkdir -p ~/.kube && sudo microk8s config view --raw > ~/.kube/config
+mkdir -p ~/.kube && touch ~/.kube/config && sudo microk8s config view >> ~/.kube/config
 ```
 
 ### Have fun experimenting with your new hypervisor!
