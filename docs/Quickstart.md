@@ -1,6 +1,6 @@
 # Kargo Quick Start
 ## Host K8s & OS Support:
-  - Fedora 34+ with kubeadm [(guide)]:kubeadm.md
+  - Fedora 34+ with kubeadm [(guide)]:docs/kubeadm.md
   - Ubuntu 21.04+ with microk8s snap (instructions below)
     
 ## Hardware:
