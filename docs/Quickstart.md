@@ -10,6 +10,16 @@
   - Hardware with Intel VTd enabled
     
 ## Instructions - Ubuntu [microk8s] 'Single Node Cluster':
+### 00. Check if virtual extensions enabled
+```sh
+sudo apt install -y cpu-checker && clear; kvm-ok
+```
+  - example output:
+```sh
+ubuntu@ubuntu:~# kvm-ok
+INFO: /dev/kvm exists
+KVM acceleration can be used
+```
 ### 01. Start [microk8s] dependency 'iscsid'
 ```sh
 sudo systemctl enable --now iscsid
