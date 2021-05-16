@@ -24,7 +24,7 @@ KVM acceleration can be used
 ```sh
 sudo systemctl enable --now iscsid
 ```
-### 03. Install [microk8s] & kubectl Snap Packages
+### 03. Install [microk8s] snap package
 ```sh
 sudo snap install microk8s --classic --channel=1.21/edge
 ```
