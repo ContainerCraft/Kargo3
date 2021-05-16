@@ -10,7 +10,7 @@
   - Hardware with Intel VTd enabled
     
 ## Instructions - Ubuntu [microk8s] 'Single Node Cluster':
-### 00. Check if virtual extensions enabled
+### 01. Check if virtual extensions enabled
 ```sh
 sudo apt install -y cpu-checker && clear; kvm-ok
 ```
@@ -20,17 +20,13 @@ ubuntu@ubuntu:~# kvm-ok
 INFO: /dev/kvm exists
 KVM acceleration can be used
 ```
-### 01. Start [microk8s] dependency 'iscsid'
+### 02. Start [microk8s] dependency 'iscsid'
 ```sh
 sudo systemctl enable --now iscsid
 ```
-### 02. Install [microk8s] & kubectl Snap Packages
+### 03. Install [microk8s] & kubectl Snap Packages
 ```sh
 sudo snap install microk8s --classic --channel=1.21/edge
-```
-### 03. Set Permissions
-```sh
-sudo usermod -aG microk8s $USER && chown -fR microk8s $USER ~/.kube && bash
 ```
 ### 04. Enable [microk8s] [DNS plugin](https://microk8s.io/docs/addon-dns) (coredns)
 ```sh
@@ -66,7 +62,12 @@ sudo update-grub
 sudo microk8s status --wait-ready && sudo reboot
 ```
 ---------------------------------------------------------------------------
-### OPTIONAL: Install kubectl and setup kubeconfig
+## OPTIONAL:
+### Set Permissions
+```sh
+sudo usermod -aG microk8s $USER ; chown -fR microk8s $USER ~/.kube && bash
+```
+### Install kubectl and set kubeconfig
 ```sh
 sudo snap install kubectl --classic --channel=1.21/edge
 mkdir -p ~/.kube && sudo microk8s config view --raw > ~/.kube/config
@@ -76,4 +77,4 @@ mkdir -p ~/.kube && sudo microk8s config view --raw > ~/.kube/config
   - [Example VM Definitions]
 
 [microk8s]:https://microk8s.io
-[Example Definitions]:https://github.com/ContainerCraft/qubo/tree/main/wip
+[Example VM Definitions]:https://github.com/ContainerCraft/qubo/tree/main/wip
