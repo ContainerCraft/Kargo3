@@ -1,6 +1,6 @@
 # Kargo Quick Start
 ## Host K8s & OS Support:
-  - Fedora Server 34+ with kubeadm [(guide)](https://github.com/ContainerCraft/Kargo/blob/master/docs/kubeadm.md)
+  - Fedora Server 34+ with kubeadm [(guide)](https://github.com/ContainerCraft/Kargo/blob/master/docs/Fedora.md)
   - Ubuntu Server 21.04+ with [microk8s] snap (instructions below)
     
 ## Hardware:
