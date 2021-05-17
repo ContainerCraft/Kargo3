@@ -41,7 +41,7 @@ sudo microk8s.enable dns
 ```
 ### 05. Reboot host
 ```sh
-sudo reboot
+sudo microk8s status --wait-ready && sudo reboot
 ```
 ------------------------------------------------------------------------
 ## Instructions - Deploy Kargo
