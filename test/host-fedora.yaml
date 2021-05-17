@@ -1,0 +1,92 @@
+---
+# https://github.com/kubevirt/kubevirt/blob/master/docs/cloud-init.md
+apiVersion: kubevirt.io/v1alpha3
+kind: VirtualMachine
+metadata:
+  name: test-fedora
+  namespace: kargo
+  labels:
+    app: kargo
+spec:
+  running: true
+  template:
+    spec:
+      nodeSelector:
+        node-role.kubernetes.io/kubevirt: ""
+      domain:
+        cpu:
+          sockets: 4
+          threads: 1
+          cores: 1
+          dedicatedCpuPlacement: false
+          model: host-passthrough
+        resources:
+          requests:
+            memory: 6Gi
+            devices.kubevirt.io/kvm: "1"
+        machine:
+          type: q35
+#       features:
+#         smm:
+#           enabled: true
+#       firmware:
+#         bootloader:
+#           efi:
+#             secureBoot: false
+        clock:
+          utc: {}
+          timer: {}
+        devices:
+          rng: {}
+          autoattachPodInterface: false
+          autoattachSerialConsole: true
+          autoattachGraphicsDevice: true
+          networkInterfaceMultiqueue: false
+          disks:
+            - name: containerdisk
+              disk:
+                bus: virtio
+            - name: cloudinitdisk
+              disk:
+                bus: virtio
+          interfaces:
+          - name: eth0
+            model: virtio
+            masquerade: {}
+      networks:
+      - name: eth0
+        pod: {}
+      hostname: fedora
+      terminationGracePeriodSeconds: 0
+      volumes:
+        - name: containerdisk
+          containerDisk:
+            image: quay.io/containercraft/fedora:34
+            imagePullPolicy: Always
+        - name: cloudinitdisk
+          cloudInitNoCloud:
+            networkData: |
+              version: 2
+              ethernets:
+                enp1s0:
+                  dhcp4: true
+                  dhcp6: false
+            userData: |
+              #cloud-config
+              hostname: fedora
+              ssh_pwauth: true
+              chpasswd:
+                list: |
+                   fedora:fedora
+                expire: False
+              users:
+                - default
+                - name: fedora
+                  sudo: ['ALL=(ALL) NOPASSWD:ALL']
+                  groups: sudo
+                  shell: /bin/bash
+                  ssh-authorized-keys:
+                    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAB/zPcAdyHRElufWDNQ1mZUWp4V9jDmaWX35ApsXgxfMHBuz3n8VLGVJuXodAAxeRbbE7Rws8BQcCH4DAMKKLHYZRdJtk3ZUw7rm0i/aq0wkeld7Yp6H/fv1ud3mudp7/+3fQ3gV8RmAO8+FS4jNBMciqtY6mWThKciwnkBWmH5atl6GsZ1ZQ+Y8+W4hXnaF6UEU1+xZ8ja+hu81a9fhejcV+m3RwT511kW5IXDe6wkq9tsIEC529VGI7XuySYvusbchivWYxmE+TBMmId3voGCfkl8hIemUG3/LvQWeK95B/6vBKDCFlmABn60zxrjPkdknWPbu4zg+VJWnslX+rDqSe2cBpHqQ8yDxegPcmXNKv2Qp0h8HhEljWoLc4U5x4hlceDraWBehj8i4N6p+Yt678+jUpOCwGC8z9l+zUrG6NPvbHZ2aIBC3eUteYPtmScNLvOiFASPo/9GQQDNqZclQZf5QGDToAV2rV1B4jJPV8fv/1rlgen6O1PNitKo9FlUfr0WA1IXev6CiJUt4x210BzhTlD84S2A0gHJRbeVVkjWKMx/vo/wqEKTg/vvzSOhFDDlKUxSsguL5rrtOxdGj4sUtjeVRuDjwk1u1DH8P75rI0R/1QaeDixJbRi8Q1315z+MrvJuvzJpMTieldqffNUnexMZcFox8yI8KlVt2U=
+              runcmd:
+                - "echo $(date) > /tmp/complete"
+                - "chown fedora:fedora /tmp/complete"

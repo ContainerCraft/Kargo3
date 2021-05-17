@@ -19,10 +19,13 @@ This will help setup a non-prod kubevirt capable kubeadm install.
   ./02-netfilter.sh
   ./03-cni-plugins.sh
 ```
-### 03. Wait for reboot
+### 03. Wait for reboot & re-attain root
+```sh
+  sudo -i
+```
 ### 04. Start Kubelet
 ```sh
-  ./04-kubernetes.sh
+  cd ~/kargo/hack/kubeadm && ./04-kubernetes.sh
 ```
 ### 05. Configure with Kubeadm
 ```sh
@@ -45,11 +48,13 @@ kubectl get nodes -owide
 ```sh
 kubectl create namespace kargo
 ```
-### 09. Apply Kargo KubeVirt and Auxiliary service manifests
-  - Note: applying manifest twice to compensate for CRD startup time
+### 05. Apply Kargo KubeVirt and Auxiliary service manifests
+  - Note: applying manifest four times to compensate for CRD startup time
 ```
-kubectl kustomize https://github.com/ContainerCraft/Kargo.git | kubectl apply -f - ; sleep 10
-kubectl kustomize https://github.com/ContainerCraft/Kargo.git | kubectl apply -f -
+kubectl kustomize https://github.com/ContainerCraft/Kargo.git | sudo microk8s kubectl apply -f - && sleep 30 \
+kubectl kustomize https://github.com/ContainerCraft/Kargo.git | sudo microk8s kubectl apply -f - && sleep 30 \
+kubectl kustomize https://github.com/ContainerCraft/Kargo.git | sudo microk8s kubectl apply -f - && sleep 30 \
+kubectl kustomize https://github.com/ContainerCraft/Kargo.git | sudo microk8s kubectl apply -f - && sleep 30
 ```
 ---------------------------------------------------------------------------
 ## OPTIONAL:
