@@ -67,7 +67,7 @@ sudo microk8s kubectl get vmi -n kargo
 ```sh
 sudo microk8s kubectl get events -n kargo -w
 ```
-### Install kubectl and set kubeconfig
+### Install kubectl and write ~/kube/config
 ```sh
 sudo snap install kubectl --classic --channel=1.21/edge
 mkdir -p ~/.kube && touch ~/.kube/config && sudo microk8s config view >> ~/.kube/config
