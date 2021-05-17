@@ -1,5 +1,6 @@
 # Kargo | CCIO KubeVirt Hypervisor
-## [Quick Start Guide]
+## [Ubuntu Quick Start Guide] (recommended)
+## [Fedora Quick Start Guide] (experimental)
 
 Kargo is a Kubernetes native KubeVirt based hypervisor solution built as an easy
 path to gitops friendly single node and multi node HomeLab VM scheduling and
@@ -53,4 +54,5 @@ codebases including Kargo intend to bridge.
 ### Non-Goals: (for now)
   - End to end production ready best practices
 
-[Quick Start Guide]:./docs/Quickstart.md
+[Ubuntu Quick Start Guide]:./docs/Ubuntu.md
+[Fedora Quick Start Guide]:./docs/Fedora.md
