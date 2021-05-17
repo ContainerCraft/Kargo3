@@ -6,7 +6,7 @@ metadata:
   name: test
   namespace: kargo
   labels:
-    app: test
+    app: kargo
 spec:
   running: true
   template:
@@ -32,7 +32,7 @@ spec:
         firmware:
           bootloader:
             efi:
-              secureBoot: true
+              secureBoot: false
         clock:
           utc: {}
           timer: {}
@@ -43,10 +43,10 @@ spec:
           autoattachGraphicsDevice: true
           networkInterfaceMultiqueue: false
           disks:
-            - name: cloudinitdisk
+            - name: containerdisk
               disk:
                 bus: virtio
-            - name: containerdisk
+            - name: cloudinitdisk
               disk:
                 bus: virtio
           interfaces:
@@ -56,7 +56,7 @@ spec:
       networks:
       - name: eth0
         pod: {}
-      hostname: test
+      hostname: ubuntu
       terminationGracePeriodSeconds: 0
       volumes:
         - name: containerdisk
@@ -68,32 +68,12 @@ spec:
             networkData: |
               version: 2
               ethernets:
-                eth0:
-                  addresses:
-                    - 10.0.0.18/24
-                  dhcp4: false
-                  dhcp6: false
-                  gateway4: 10.0.0.1
-                  nameservers:
-                    addresses:
-                    - 8.8.8.8
-                    - 8.8.4.4
-                    search:
-                    - kargo.lab
                 enp1s0:
-                  addresses:
-                    - 10.0.0.18/24
-                  dhcp4: false
+                  dhcp4: true
                   dhcp6: false
-                  gateway4: 10.0.0.1
-                  nameservers:
-                    addresses:
-                    - 8.8.8.8
-                    - 8.8.4.4
-                    search:
-                    - kargo.lab
             userData: |
               #cloud-config
+              hostname: ubuntu
               ssh_pwauth: true
               chpasswd:
                 list: |
@@ -106,8 +86,7 @@ spec:
                   groups: sudo
                   shell: /bin/bash
                   ssh-authorized-keys:
-                    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAB/zPcAdyHRElufWDNQ1mZUWp4V9jDmaWX35ApsXgxfMHBuz3n8VLGVJuXodAAxeRbbE7Rws8BQcCH4DAMKKLHYZRdJtk3ZUw7rm0i/aq0wkeld7Yp6H/fv1ud3mudp7/+3fQ3gV8RmAO8+FS4jNBMciqtY6mWThKciwnkBWmH5atl6GsZ1ZQ+Y8+W4hXnaF6UEU1+xZ8ja+hu81a9fhejcV+m3RwT511kW5IXDe6wkq9tsIEC529VGI7XuySYvusbchivWYxmE+TBMmId3voGCfkl8hIemUG3/LvQWeK95B/6vBKDCFlmABn60zxrjPkdknWPbu4zg+VJWnslX+rDqSe2cBpHqQ8yDxegPcmXNKv2Qp0h8HhEljWoLc4U5x4hlceDraWBehj8i4N6p+Yt678+jUpOCwGC8z9l+zUrG6NPvbHZ2aIBC3eUteYPtmScNLvOiFASPo/9GQQDNqZclQZf5QGDToAV2rV1B4jJPV8fv/1rlgen6O1PNitKo9FlUfr0WA1IXev6CiJUt4x210BzhTlD84S2A0gHJRbeVVkjWKMx/vo/wqEKTg/vvzSOhFDDlKUxSsguL5rrtOxdGj4sUtjeVRuDjwk1u1DH8P75rI0R/1QaeDixJbRi8Q1315z+MrvJuvzJpMTieldqffNUnexMZcFox8yI8KlVt2U= kmorgan@mprcs.braincraft.io
-              hostname: ubuntu
+                    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAB/zPcAdyHRElufWDNQ1mZUWp4V9jDmaWX35ApsXgxfMHBuz3n8VLGVJuXodAAxeRbbE7Rws8BQcCH4DAMKKLHYZRdJtk3ZUw7rm0i/aq0wkeld7Yp6H/fv1ud3mudp7/+3fQ3gV8RmAO8+FS4jNBMciqtY6mWThKciwnkBWmH5atl6GsZ1ZQ+Y8+W4hXnaF6UEU1+xZ8ja+hu81a9fhejcV+m3RwT511kW5IXDe6wkq9tsIEC529VGI7XuySYvusbchivWYxmE+TBMmId3voGCfkl8hIemUG3/LvQWeK95B/6vBKDCFlmABn60zxrjPkdknWPbu4zg+VJWnslX+rDqSe2cBpHqQ8yDxegPcmXNKv2Qp0h8HhEljWoLc4U5x4hlceDraWBehj8i4N6p+Yt678+jUpOCwGC8z9l+zUrG6NPvbHZ2aIBC3eUteYPtmScNLvOiFASPo/9GQQDNqZclQZf5QGDToAV2rV1B4jJPV8fv/1rlgen6O1PNitKo9FlUfr0WA1IXev6CiJUt4x210BzhTlD84S2A0gHJRbeVVkjWKMx/vo/wqEKTg/vvzSOhFDDlKUxSsguL5rrtOxdGj4sUtjeVRuDjwk1u1DH8P75rI0R/1QaeDixJbRi8Q1315z+MrvJuvzJpMTieldqffNUnexMZcFox8yI8KlVt2U=
               runcmd:
-                - echo $(date) > /tmp/complete
-                - chown ubuntu:ubuntu /tmp/complete
+                - "echo $(date) > /tmp/complete"
+                - "chown ubuntu:ubuntu /tmp/complete"
