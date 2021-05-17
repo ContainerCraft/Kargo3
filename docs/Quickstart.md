@@ -18,44 +18,36 @@
 sudo apt install -y cpu-checker && clear; kvm-ok
 ```
   - example output:
-```sh
+```
 ubuntu@ubuntu:~# kvm-ok
 INFO: /dev/kvm exists
 KVM acceleration can be used
 ```
-### 01. Add virtualization kernel arguments to /etc/default/grub
-```sh
-echo R1JVQl9ERUZBVUxUPTAKR1JVQl9USU1FT1VUPTAKR1JVQl9USU1FT1VUX1NUWUxFPWhpZGRlbgpHUlVCX0RJU1RSSUJVVE9SPWBsc2JfcmVsZWFzZSAtaSAtcyAyPiAvZGV2L251bGwgfHwgZWNobyBEZWJpYW5gCkdSVUJfQ01ETElORV9MSU5VWD0nY2dyb3VwX21lbW9yeT0xIGNncm91cF9lbmFibGU9Y3B1c2V0IGNncm91cF9lbmFibGU9bWVtb3J5IHN5c3RlbWQudW5pZmllZF9jZ3JvdXBfaGllcmFyY2h5PTAgaW50ZWxfaW9tbXU9b24gaW9tbXU9cHQgcmQuZHJpdmVyLnByZT12ZmlvLXBjaSBwY2k9cmVhbGxvYycK | base64 -d | sudo tee /etc/default/grub
-```
-### 02. Re-build grub bootloader
-```sh
-sudo update-grub
-```
-### 03. Install [microk8s] snap package
+### 01. Install [microk8s] snap package
 ```sh
 sudo snap install microk8s --classic --channel=1.21/edge
 ```
-### 04. Enable [microk8s] [DNS plugin](https://microk8s.io/docs/addon-dns) (coredns)
+### 02. Enable [microk8s] [DNS plugin](https://microk8s.io/docs/addon-dns) (coredns)
 ```sh
 sudo microk8s.enable dns
 ```
-### 05. Reboot host
+### 03. Reboot host
 ```sh
-sudo microk8s status --wait-ready && sudo reboot
+sudo microk8s status --wait-ready
 ```
 ------------------------------------------------------------------------
 ## Instructions - Deploy Kargo
-### 06. Label Node(s)
+### 04. Label Node(s)
 ```
 sudo microk8s kubectl label nodes --all --overwrite node-role.kubernetes.io/worker=''
 sudo microk8s kubectl label nodes --all --overwrite node-role.kubernetes.io/kubevirt=''
 sudo microk8s kubectl get nodes -owide
 ```
-### 07. Create Namespace
+### 05. Create Namespace
 ```sh
 sudo microk8s kubectl create namespace kargo
 ```
-### 08. Apply Kargo KubeVirt and Auxiliary service manifests
+### 06. Apply Kargo KubeVirt and Auxiliary service manifests
   - Note: applying manifest four times to compensate for CRD startup time
 ```
 sudo microk8s kubectl kustomize https://github.com/ContainerCraft/Kargo.git | sudo microk8s kubectl apply -f -
@@ -71,7 +63,7 @@ sudo microk8s kubectl kustomize https://github.com/ContainerCraft/Kargo.git | su
 ### Create a test VM
   - usrname:passwd: `ubuntu:ubuntu`
 ```sh
-sudo microk8s status --wait-ready && sleep 20 && \
+sudo microk8s status --wait-ready && sleep 30 && \
 sudo microk8s kubectl apply -f https://raw.githubusercontent.com/ContainerCraft/Kargo/master/test/test.yaml && sleep 60 && \
 sudo microk8s kubectl get vmi -n kargo
 ```
@@ -92,6 +84,10 @@ export VIRTCTL_RELEASE=$(curl -s https://api.github.com/repos/kubevirt/kubevirt/
 sudo curl --output /usr/local/bin/virtctl -L https://github.com/kubevirt/kubevirt/releases/download/v${VIRTCTL_RELEASE}/virtctl-v${VIRTCTL_RELEASE}-linux-amd64
 sudo chmod +x /usr/local/bin/virtctl
 virtctl console -n kargo test
+```
+### Enhance KVM kernel arguments in /etc/default/grub
+```sh
+echo R1JVQl9ERUZBVUxUPTAKR1JVQl9USU1FT1VUPTAKR1JVQl9USU1FT1VUX1NUWUxFPWhpZGRlbgpHUlVCX0RJU1RSSUJVVE9SPWBsc2JfcmVsZWFzZSAtaSAtcyAyPiAvZGV2L251bGwgfHwgZWNobyBEZWJpYW5gCkdSVUJfQ01ETElORV9MSU5VWD0nY2dyb3VwX21lbW9yeT0xIGNncm91cF9lbmFibGU9Y3B1c2V0IGNncm91cF9lbmFibGU9bWVtb3J5IHN5c3RlbWQudW5pZmllZF9jZ3JvdXBfaGllcmFyY2h5PTAgaW50ZWxfaW9tbXU9b24gaW9tbXU9cHQgcmQuZHJpdmVyLnByZT12ZmlvLXBjaSBwY2k9cmVhbGxvYycK | base64 -d | sudo tee /etc/default/grub && sudo update-grub && sudo reboot
 ```
 
 ### Have fun experimenting with your new hypervisor!
