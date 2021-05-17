@@ -6,7 +6,7 @@
 ## Hardware:
   - Minimum 16GB RAM
   - Minimum 512GB SSD
-  - Minimum Intel dual core CPU
+  - Minimum Intel Quad Core CPU
   - Hardware with Intel VT-d enabled
     
 ------------------------------------------------------------------------
