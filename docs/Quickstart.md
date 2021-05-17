@@ -68,25 +68,25 @@ sudo microk8s status --wait-ready && sudo reboot
 ```
 ---------------------------------------------------------------------------
 ## OPTIONAL:
-### Install kubectl and set kubeconfig
+### Create a test VM
+  - usrname:passwd: `ubuntu:ubuntu`
 ```sh
-sudo snap install kubectl --classic --channel=1.21/edge
-mkdir -p ~/.kube && touch ~/.kube/config && sudo microk8s config view >> ~/.kube/config
-sudo usermod -aG microk8s `whoami` ; chown -fR `whoami` ~/.kube && bash
-kubectl --context microk8s get all -A
+sudo microk8s kubectl apply -f https://raw.githubusercontent.com/ContainerCraft/Kargo/master/test/test.yaml
+sudo microk8s kubectl get vmi -n kargo
 ```
 ### Install virtctl
 ```sh
 export VIRTCTL_RELEASE=$(curl -s https://api.github.com/repos/kubevirt/kubevirt/releases/latest | awk -F '["v,]' '/tag_name/{print $5}')
 sudo curl --output /usr/local/bin/virtctl -L https://github.com/kubevirt/kubevirt/releases/download/v${VIRTCTL_RELEASE}/virtctl-v${VIRTCTL_RELEASE}-linux-amd64
 sudo chmod +x /usr/local/bin/virtctl
-```
-### Create a test VM
-  - usrname:passwd: `ubuntu:ubuntu`
-```sh
-kubectl apply -f https://raw.githubusercontent.com/ContainerCraft/Kargo/master/test/test.yaml
-kubectl get vmi -n kargo
 virtctl console -n kargo test
+```
+### Install kubectl and set kubeconfig
+```sh
+sudo snap install kubectl --classic --channel=1.21/edge
+mkdir -p ~/.kube && touch ~/.kube/config && sudo microk8s config view >> ~/.kube/config
+sudo usermod -aG microk8s `whoami` ; chown -fR `whoami` ~/.kube && bash
+kubectl --context microk8s get all -A
 ```
 
 ### Have fun experimenting with your new hypervisor!
