@@ -72,7 +72,7 @@ kubectl --context microk8s get all -A
 ```
 ### Install virtctl
 ```sh
-export VIRTCTL_RELEASE="curl -s https://api.github.com/repos/kubevirt/kubevirt/releases/latest | awk -F '["v,]' '/tag_name/{print $5}'"
+export VIRTCTL_RELEASE=$(curl -s https://api.github.com/repos/kubevirt/kubevirt/releases/latest | awk -F '["v,]' '/tag_name/{print $5}')
 sudo curl --output /usr/local/bin/virtctl -L https://github.com/kubevirt/kubevirt/releases/download/v${VIRTCTL_RELEASE}/virtctl-${VIRTCTL_RELEASE}-linux-amd64
 sudo chmod +x /usr/local/bin/virtctl
 ```
