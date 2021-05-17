@@ -29,25 +29,21 @@ sudo snap install microk8s --classic --channel=1.21/edge
 ```
 ### 02. Enable [microk8s] [DNS plugin](https://microk8s.io/docs/addon-dns) (coredns)
 ```sh
-sudo microk8s.enable dns
-```
-### 03. Reboot host
-```sh
-sudo microk8s status --wait-ready
+sudo microk8s.enable dns && sudo microk8s status --wait-ready
 ```
 ------------------------------------------------------------------------
 ## Instructions - Deploy Kargo
-### 04. Label Node(s)
+### 03. Label Node(s)
 ```
 sudo microk8s kubectl label nodes --all --overwrite node-role.kubernetes.io/worker=''
 sudo microk8s kubectl label nodes --all --overwrite node-role.kubernetes.io/kubevirt=''
 sudo microk8s kubectl get nodes -owide
 ```
-### 05. Create Namespace
+### 04. Create Namespace
 ```sh
 sudo microk8s kubectl create namespace kargo
 ```
-### 06. Apply Kargo KubeVirt and Auxiliary service manifests
+### 05. Apply Kargo KubeVirt and Auxiliary service manifests
   - Note: applying manifest four times to compensate for CRD startup time
 ```
 sudo microk8s kubectl kustomize https://github.com/ContainerCraft/Kargo.git | sudo microk8s kubectl apply -f -
@@ -86,6 +82,7 @@ sudo chmod +x /usr/local/bin/virtctl
 virtctl console -n kargo test
 ```
 ### Enhance KVM kernel arguments in /etc/default/grub
+  - Note: causes reboot
 ```sh
 echo R1JVQl9ERUZBVUxUPTAKR1JVQl9USU1FT1VUPTAKR1JVQl9USU1FT1VUX1NUWUxFPWhpZGRlbgpHUlVCX0RJU1RSSUJVVE9SPWBsc2JfcmVsZWFzZSAtaSAtcyAyPiAvZGV2L251bGwgfHwgZWNobyBEZWJpYW5gCkdSVUJfQ01ETElORV9MSU5VWD0nY2dyb3VwX21lbW9yeT0xIGNncm91cF9lbmFibGU9Y3B1c2V0IGNncm91cF9lbmFibGU9bWVtb3J5IHN5c3RlbWQudW5pZmllZF9jZ3JvdXBfaGllcmFyY2h5PTAgaW50ZWxfaW9tbXU9b24gaW9tbXU9cHQgcmQuZHJpdmVyLnByZT12ZmlvLXBjaSBwY2k9cmVhbGxvYycK | base64 -d | sudo tee /etc/default/grub && sudo update-grub && sudo reboot
 ```
