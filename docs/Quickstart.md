@@ -12,6 +12,7 @@
 ------------------------------------------------------------------------
 ## Instructions - Ubuntu [microk8s] 'Single Node Cluster':
   - Disclaimer: kubeadm is proof of concept developer use only, please use microk8s method for long lived use
+  - Notice: Do not install microk8s snap during Ubuntu OS Install process    
 ### 01. Check if virtual extensions enabled
 ```sh
 sudo apt install -y cpu-checker && clear; kvm-ok
