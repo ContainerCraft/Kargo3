@@ -70,8 +70,12 @@ sudo microk8s kubectl kustomize https://github.com/ContainerCraft/Kargo.git | su
   - usrname:passwd: `ubuntu:ubuntu`
 ```sh
 sudo microk8s status --wait-ready && \
-sudo microk8s kubectl apply -f https://raw.githubusercontent.com/ContainerCraft/Kargo/master/test/test.yaml && sleep 5 && \
+sudo microk8s kubectl apply -f https://raw.githubusercontent.com/ContainerCraft/Kargo/master/test/test.yaml && sleep 60 && \
 sudo microk8s kubectl get vmi -n kargo
+```
+  - watch kargo events with this command
+```sh
+sudo microk8s kubectl get events -n kargo -w
 ```
 ### Install kubectl and set kubeconfig
 ```sh
