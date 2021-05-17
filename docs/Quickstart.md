@@ -31,17 +31,17 @@ echo R1JVQl9ERUZBVUxUPTAKR1JVQl9USU1FT1VUPTAKR1JVQl9USU1FT1VUX1NUWUxFPWhpZGRlbgp
 ```sh
 sudo update-grub
 ```
-### 03. Reboot host
-```sh
-sudo microk8s status --wait-ready && sudo reboot
-```
-### 04. Install [microk8s] snap package
+### 03. Install [microk8s] snap package
 ```sh
 sudo snap install microk8s --classic --channel=1.21/edge
 ```
-### 05. Enable [microk8s] [DNS plugin](https://microk8s.io/docs/addon-dns) (coredns)
+### 04. Enable [microk8s] [DNS plugin](https://microk8s.io/docs/addon-dns) (coredns)
 ```sh
 sudo microk8s.enable dns
+```
+### 05. Reboot host
+```sh
+sudo reboot
 ```
 ------------------------------------------------------------------------
 ## Instructions - Deploy Kargo
