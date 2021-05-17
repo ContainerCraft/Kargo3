@@ -56,7 +56,7 @@ sudo microk8s kubectl get nodes -owide
 sudo microk8s kubectl create namespace kargo
 ```
 ### 08. Apply Kargo KubeVirt and Auxiliary service manifests
-  - Note; applying manifest three times to compensate for CRD startup time
+  - Note: applying manifest three times to compensate for CRD startup time
 ```
 sudo microk8s kubectl kustomize https://github.com/ContainerCraft/Kargo.git | sudo microk8s kubectl apply -f -
 sudo microk8s status --wait-ready && sleep 30
