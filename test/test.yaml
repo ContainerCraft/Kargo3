@@ -22,7 +22,7 @@ spec:
           model: host-passthrough
         resources:
           requests:
-            memory: 2Gi
+            memory: 4Gi
             devices.kubevirt.io/kvm: "1"
         machine:
           type: q35

@@ -51,7 +51,7 @@ sudo microk8s kubectl create namespace kargo
   - Note; applying manifest twice to compensate for CRD startup time
 ```
 sudo microk8s kubectl kustomize https://github.com/ContainerCraft/Kargo.git | sudo microk8s kubectl apply -f -
-sudo microk8s status --wait-ready && sleep 15
+sudo microk8s status --wait-ready && sleep 30
 sudo microk8s kubectl kustomize https://github.com/ContainerCraft/Kargo.git | sudo microk8s kubectl apply -f -
 ```
 ### 08. Add virtualization kernel arguments to /etc/default/grub
