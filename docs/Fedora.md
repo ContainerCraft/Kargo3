@@ -51,9 +51,9 @@ kubectl create namespace kargo
 ### 05. Apply Kargo KubeVirt and Auxiliary service manifests
   - Note: applying manifest four times to compensate for CRD startup time
 ```
-kubectl kustomize https://github.com/ContainerCraft/Kargo.git | kubectl apply -f - ; sleep 30 \
-kubectl kustomize https://github.com/ContainerCraft/Kargo.git | kubectl apply -f - ; sleep 30 \
-kubectl kustomize https://github.com/ContainerCraft/Kargo.git | kubectl apply -f - ; sleep 30 \
+kubectl kustomize https://github.com/ContainerCraft/Kargo.git | kubectl apply -f - ; sleep 30 ;\
+kubectl kustomize https://github.com/ContainerCraft/Kargo.git | kubectl apply -f - ; sleep 30 ;\
+kubectl kustomize https://github.com/ContainerCraft/Kargo.git | kubectl apply -f - ; sleep 30 ;\
 kubectl kustomize https://github.com/ContainerCraft/Kargo.git | kubectl apply -f - 
 ```
 ---------------------------------------------------------------------------
