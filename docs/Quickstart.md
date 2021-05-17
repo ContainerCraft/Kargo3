@@ -1,15 +1,17 @@
 # Kargo Quick Start
 ## Host K8s & OS Support:
-  - Fedora Server 34+ with kubeadm [example](https://github.com/ContainerCraft/Kargo/blob/master/docs/kubeadm.md)
+  - Fedora Server 34+ with kubeadm [(guide)](https://github.com/ContainerCraft/Kargo/blob/master/docs/kubeadm.md)
   - Ubuntu Server 21.04+ with [microk8s] snap (instructions below)
     
 ## Hardware:
   - Minimum 16GB RAM
   - Minimum 512GB SSD
   - Minimum Intel dual core CPU
-  - Hardware with Intel VTd enabled
+  - Hardware with Intel VT-d enabled
     
+------------------------------------------------------------------------
 ## Instructions - Ubuntu [microk8s] 'Single Node Cluster':
+  - Disclaimer: kubeadm is proof of concept developer use only, please use microk8s method for long lived use
 ### 01. Check if virtual extensions enabled
 ```sh
 sudo apt install -y cpu-checker && clear; kvm-ok
@@ -32,6 +34,8 @@ sudo snap install microk8s --classic --channel=1.21/edge
 ```sh
 sudo microk8s.enable dns
 ```
+------------------------------------------------------------------------
+## Instructions - Deploy Kargo
 ### 05. Label Node(s)
 ```
 sudo microk8s kubectl label nodes --all --overwrite node-role.kubernetes.io/worker=''
