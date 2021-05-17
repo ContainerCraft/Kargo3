@@ -15,14 +15,14 @@ spec:
         node-role.kubernetes.io/kubevirt: ""
       domain:
         cpu:
-          sockets: 1
+          sockets: 2
           threads: 1
           cores: 1
           dedicatedCpuPlacement: false
           model: host-passthrough
         resources:
           requests:
-            memory: 1Gi
+            memory: 4Gi
             devices.kubevirt.io/kvm: "1"
         machine:
           type: q35
