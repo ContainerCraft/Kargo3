@@ -73,7 +73,7 @@ sudo microk8s status --wait-ready && sudo reboot
 ### Create a test VM
   - usrname:passwd: `ubuntu:ubuntu`
 ```sh
-sudo microk8s status --wait-ready && sleep 2 && \
+sudo microk8s status --wait-ready && sleep 60 && \
 sudo microk8s kubectl apply -f https://raw.githubusercontent.com/ContainerCraft/Kargo/master/test/test.yaml && sleep 5 && \
 sudo microk8s kubectl get vmi -n kargo
 ```
