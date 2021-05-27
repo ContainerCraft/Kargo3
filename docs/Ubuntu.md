@@ -1,6 +1,5 @@
-# Kargo Quick Start
+# Kargo Quick Start | Ubuntu (EXPERIMENTAL)
 ## Host K8s & OS Support:
-  - Fedora Server 34+ with kubeadm [(guide)](https://github.com/ContainerCraft/Kargo/blob/master/docs/Fedora.md)
   - Ubuntu Server 21.04+ with [microk8s] snap (instructions below)
     
 ## Hardware:
@@ -79,6 +78,15 @@ export VIRTCTL_RELEASE=$(curl -s https://api.github.com/repos/kubevirt/kubevirt/
 sudo curl --output /usr/local/bin/virtctl -L https://github.com/kubevirt/kubevirt/releases/download/v${VIRTCTL_RELEASE}/virtctl-v${VIRTCTL_RELEASE}-linux-amd64
 sudo chmod +x /usr/local/bin/virtctl
 virtctl console -n kargo test
+```
+### Add nmstate, ,metallb, multus, prometheus, & openebs dependencies
+  - Used for configuring network bonds/bridges with kubernetes api yaml definitions
+```sh
+sudo apt install iscsid network-manager -y
+sudo microk8s enable openebs
+sudo microk8s enable prometheus
+sudo microk8s enable metallb
+sudo microk8s enable multus
 ```
 ### Enhance KVM kernel arguments in /etc/default/grub
   - Note: causes reboot

@@ -35,14 +35,17 @@ This will help setup a non-prod kubevirt capable kubeadm install.
 ```
   ./06-calico.sh
 ```
+  - Wait for node to show "Ready" before continuing
+```sh
+watch kubectl get nodes -owide
+```
 ------------------------------------------------------------------------
 ## Instructions - Deploy Kargo
 ### 07. Label Node(s)
-```
+```sh
 kubectl taint nodes --all --overwrite node-role.kubernetes.io/master-
 kubectl label nodes --all --overwrite node-role.kubernetes.io/worker=''
 kubectl label nodes --all --overwrite node-role.kubernetes.io/kubevirt=''
-kubectl get nodes -owide
 ```
 ### 08. Create Namespace
 ```sh
