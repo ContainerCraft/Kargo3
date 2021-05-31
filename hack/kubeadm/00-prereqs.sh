@@ -78,7 +78,6 @@ extras () {
 
 basic () {
   sudo hostnamectl set-hostname ${LOCAL_HOSTNAME}
-  sudo git clone https://github.com/containercraft/artemis.git /root/artemis
 }
 
 run
