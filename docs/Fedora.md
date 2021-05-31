@@ -8,16 +8,20 @@ This will help setup a non-prod kubevirt capable kubeadm install.
 
 ------------------------------------------------------------------------
 ## Instructions - kubeadm 'single node cluster':
-### 01. Clone Repo
+### 00. Clone Repo
 ```sh
   git clone https://github.com/containercraft/kargo.git ~/kargo && cd ~/kargo/hack/kubeadm
 ```
-### 02. Run host prep scripts
+### 01. Run host prep scripts
 ```sh
   ./00-rereqs.sh
   ./01-fix-resolved.sh
   ./02-netfilter.sh
   ./03-cni-plugins.sh
+```
+### 02. Reboot
+```sh
+  shutdown -r now
 ```
 ### 03. Wait for reboot & re-attain root
 ```sh
