@@ -140,13 +140,6 @@ rules:
   - get
   - watch
   - create
-- apiGroups:
-  - apps
-  resources:
-  - daemonsets
-  resourceNames:
-  - hostpath-provisioner
-  verbs:
   - delete
   - update
 - apiGroups:
@@ -166,19 +159,8 @@ rules:
   - ""
   resources:
   - serviceaccounts
-  resourceNames:
-  - hostpath-provisioner-admin
   verbs:
   - '*'
-- apiGroups:
-  - ""
-  resources:
-  - serviceaccounts
-  verbs:
-  - list
-  - get
-  - watch
-  - create
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -1777,7 +1759,7 @@ spec:
       containers:
         - name: hostpath-provisioner-operator
           # Replace this with the built image name
-          image: quay.io/kubevirt/hostpath-provisioner-operator:v0.8.0
+          image: quay.io/kubevirt/hostpath-provisioner-operator:latest
           command:
           - hostpath-provisioner-operator
           imagePullPolicy: Always
@@ -1793,4 +1775,4 @@ spec:
             - name: OPERATOR_NAME
               value: "hostpath-provisioner-operator"
             - name: PROVISIONER_IMAGE
-              value: "quay.io/kubevirt/hostpath-provisioner:v0.8.0"
+              value: "quay.io/kubevirt/hostpath-provisioner:latest"
