@@ -121,7 +121,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    networkaddonsoperator.network.kubevirt.io/version: 0.57.0
+    networkaddonsoperator.network.kubevirt.io/version: 0.53.5
   name: cluster-network-addons-operator
   namespace: cluster-network-addons
 spec:
@@ -146,23 +146,23 @@ spec:
         - name: LINUX_BRIDGE_IMAGE
           value: quay.io/kubevirt/cni-default-plugins@sha256:a90902cf3e5154424148bf3ba3c1bf90316cc77a54042cf6584fe8aedbe6daec
         - name: LINUX_BRIDGE_MARKER_IMAGE
-          value: quay.io/kubevirt/bridge-marker@sha256:8cc1bb83f26715b284aef7a71e6430625c7a2cf71dbca1ea9a263ef38d70a7df
+          value: quay.io/kubevirt/bridge-marker@sha256:c59758d1f4caf6b40b76ffc3c7812e9f0af64234e2dec8abaa3ea2e500126672
         - name: NMSTATE_HANDLER_IMAGE
-          value: quay.io/nmstate/kubernetes-nmstate-handler@sha256:0e30f69b9568b252d9d86c46292821c76bf8f471fd81e099e55ff613727267be
+          value: quay.io/nmstate/kubernetes-nmstate-handler@sha256:13b1345607aaedd1fd56ce8431ed2b290bf01a4dc3abd17f7afd8755f942b5c3
         - name: OVS_CNI_IMAGE
-          value: quay.io/kubevirt/ovs-cni-plugin@sha256:479b698787f8adbeb6663935f497b75010e444b129f9afd683deacfb7626cbb1
+          value: quay.io/kubevirt/ovs-cni-plugin@sha256:52a303ac34cc5d7739a11d49c397a93e0653433cf58ea0d66d8dd7a0a622c543
         - name: OVS_MARKER_IMAGE
-          value: quay.io/kubevirt/ovs-cni-marker@sha256:24143bf47dc4f5ba53dc62c9817fb61089393f76d910e1978a89edd46a4bc446
+          value: quay.io/kubevirt/ovs-cni-marker@sha256:0bbe71b5f3e1ba2be0d773a54562c2758bad2c77fa8e65755896a8f40bd2de03
         - name: KUBEMACPOOL_IMAGE
-          value: quay.io/kubevirt/kubemacpool@sha256:ef759a6e8960d895e777621381c3e94d677f1401435bc00c7663dc1b828272cb
+          value: quay.io/kubevirt/kubemacpool@sha256:ec22c670770c7aad86429fa6567581c17d8c295a7aa7189405f5dbb224a545e7
         - name: MACVTAP_CNI_IMAGE
           value: quay.io/kubevirt/macvtap-cni@sha256:375af0a38e07281d6018ad92a63d115f3e78f2b30d53f728891073ac0510cee9
         - name: OPERATOR_IMAGE
-          value: quay.io/kubevirt/cluster-network-addons-operator:v0.57.0
+          value: quay.io/kubevirt/cluster-network-addons-operator:v0.53.5
         - name: OPERATOR_NAME
           value: cluster-network-addons-operator
         - name: OPERATOR_VERSION
-          value: 0.57.0
+          value: 0.53.5
         - name: OPERATOR_NAMESPACE
           valueFrom:
             fieldRef:
@@ -176,7 +176,7 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         - name: WATCH_NAMESPACE
-        image: quay.io/kubevirt/cluster-network-addons-operator:v0.57.0
+        image: quay.io/kubevirt/cluster-network-addons-operator:v0.53.5
         imagePullPolicy: Always
         name: cluster-network-addons-operator
         resources: {}
