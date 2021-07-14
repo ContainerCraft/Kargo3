@@ -1,0 +1,131 @@
+---
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: kargo-net-attach-def-br0
+  namespace: kargo
+spec:
+  config: >
+    {
+        "cniVersion": "0.3.1",
+        "name": "br0",
+        "plugins": [
+            {
+                "type": "bridge",
+                "bridge": "br0",
+                "ipam": {}
+            },
+            {
+                "type": "tuning"
+            }
+        ]
+    }
+---
+apiVersion: kubevirt.io/v1alpha3
+kind: VirtualMachine
+metadata:
+  name: testbr0vm
+  namespace: kargo
+  labels:
+    app: kargo-testbr0vm
+spec:
+  running: true
+  template:
+    spec:
+      nodeSelector:
+        node-role.kubernetes.io/kubevirt: ""
+      domain:
+        clock:
+          utc: {}
+          timer: {}
+        cpu:
+          sockets: 2
+          threads: 1
+          cores: 1
+          model: host-model
+          dedicatedCpuPlacement: false
+        resources:
+          requests:
+            devices.kubevirt.io/kvm: "1"
+            memory: 2Gi
+        machine:
+          type: pc-q35-rhel8.3.0
+        devices:
+          autoattachPodInterface: false
+          autoattachSerialConsole: true
+          autoattachGraphicsDevice: true
+          networkInterfaceMultiqueue: true
+          rng: {}
+          disks:
+            - name: containerdisk
+              bootOrder: 1
+              disk:
+                bus: virtio
+            - name: cloudinitdisk
+              disk:
+                bus: virtio
+          interfaces:
+          - name: enp1s0
+            model: virtio
+            bootOrder: 2
+            bridge: {}
+        features:
+          smm:
+            enabled: true
+        firmware:
+          bootloader:
+            efi:
+              secureBoot: false
+      hostname: kargo-microk8s
+      networks:
+      - name: enp1s0
+        multus:
+          networkName: kargo-net-attach-def-br0
+      terminationGracePeriodSeconds: 0
+      volumes:
+        - name: containerdisk
+          containerDisk:
+            image: quay.io/containercraft/ubuntu:21.04
+            imagePullPolicy: Always
+        - name: cloudinitdisk
+          cloudInitNoCloud:
+            networkData: |
+              version: 2
+              ethernets:
+                enp1s0:
+                  dhcp4: true
+                  dhcp6: false
+                  nameservers:
+                    addresses:
+                    - 192.168.1.1
+                    - 8.8.8.8
+                    search:
+                    - codectl.lab
+            userData: |
+              #cloud-config
+              ssh_pwauth: true
+              chpasswd:
+                list: |
+                   ubuntu:ubuntu
+                expire: False
+              users:
+                - default
+                - name: ubuntu
+                  sudo: ['ALL=(ALL) NOPASSWD:ALL']
+                  groups: sudo
+                  shell: /bin/bash
+                  ssh-authorized-keys:
+                    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAB/zPcAdyHRElufWDNQ1mZUWp4V9jDmaWX35ApsXgxfMHBuz3n8VLGVJuXodAAxeRbbE7Rws8BQcCH4DAMKKLHYZRdJtk3ZUw7rm0i/aq0wkeld7Yp6H/fv1ud3mudp7/+3fQ3gV8RmAO8+FS4jNBMciqtY6mWThKciwnkBWmH5atl6GsZ1ZQ+Y8+W4hXnaF6UEU1+xZ8ja+hu81a9fhejcV+m3RwT511kW5IXDe6wkq9tsIEC529VGI7XuySYvusbchivWYxmE+TBMmId3voGCfkl8hIemUG3/LvQWeK95B/6vBKDCFlmABn60zxrjPkdknWPbu4zg+VJWnslX+rDqSe2cBpHqQ8yDxegPcmXNKv2Qp0h8HhEljWoLc4U5x4hlceDraWBehj8i4N6p+Yt678+jUpOCwGC8z9l+zUrG6NPvbHZ2aIBC3eUteYPtmScNLvOiFASPo/9GQQDNqZclQZf5QGDToAV2rV1B4jJPV8fv/1rlgen6O1PNitKo9FlUfr0WA1IXev6CiJUt4x210BzhTlD84S2A0gHJRbeVVkjWKMx/vo/wqEKTg/vvzSOhFDDlKUxSsguL5rrtOxdGj4sUtjeVRuDjwk1u1DH8P75rI0R/1QaeDixJbRi8Q1315z+MrvJuvzJpMTieldqffNUnexMZcFox8yI8KlVt2U=
+              hostname: testbr0vm
+              runcmd:
+                - "systemctl enable iscsid"
+                - "snap install microk8s --classic --channel=1.21/edge"
+                - "sudo usermod -a -G microk8s ubuntu"
+                - "snap install kubectl  --classic --channel=1.21/edge"
+                - "microk8s.enable dns dashboard helm3 openebs prometheus"
+                - "microk8s status --wait-ready"
+                - "mkdir -p /home/ubuntu/.kube"
+                - "microk8s kubectl config view --raw | tee /home/ubuntu/.kube/config"
+                - "chown -R ubuntu:ubuntu /home/ubuntu"
+                - "sudo usermod -a -G microk8s ubuntu"
+                - "sudo chown -f -R ubuntu ~/.kube"
