@@ -68,7 +68,7 @@ kubectl kustomize https://github.com/ContainerCraft/Kargo.git | kubectl apply -f
 ### Create a test VM
   - usrname:passwd: `ubuntu:ubuntu`
 ```sh
-kubectl apply -f https://raw.githubusercontent.com/ContainerCraft/Kargo/master/test/test.yaml && sleep 60 && clear \
+kubectl apply -n kargo -f https://git.io/JCVoI && sleep 60 && clear \
 kubectl get vmi -n kargo
 ```
   - watch kargo events with this command
