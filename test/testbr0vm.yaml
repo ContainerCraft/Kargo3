@@ -39,7 +39,7 @@ spec:
           utc: {}
           timer: {}
         cpu:
-          sockets: 2
+          sockets: 4
           threads: 1
           cores: 1
           model: host-model
@@ -47,7 +47,7 @@ spec:
         resources:
           requests:
             devices.kubevirt.io/kvm: "1"
-            memory: 2Gi
+            memory: 4Gi
         machine:
           type: pc-q35-rhel8.3.0
         devices:
@@ -97,7 +97,7 @@ spec:
                   dhcp6: false
                   nameservers:
                     addresses:
-                    - 192.168.1.1
+                    - 1.1.1.1
                     - 8.8.8.8
                     search:
                     - codectl.lab
@@ -119,13 +119,13 @@ spec:
               hostname: testbr0vm
               runcmd:
                 - "systemctl enable iscsid"
-                - "snap install microk8s --classic --channel=1.21/edge"
+                - "snap install microk8s --classic --channel=latest/candidate"
                 - "sudo usermod -a -G microk8s ubuntu"
-                - "snap install kubectl  --classic --channel=1.21/edge"
+                - "snap install kubectl  --classic --channel=latest/candidate"
                 - "microk8s.enable dns dashboard helm3 openebs prometheus"
                 - "microk8s status --wait-ready"
                 - "mkdir -p /home/ubuntu/.kube"
-                - "microk8s kubectl config view --raw | tee /home/ubuntu/.kube/config"
+                - "microk8s kubectl config view -l | tee /home/ubuntu/.kube/config"
                 - "chown -R ubuntu:ubuntu /home/ubuntu"
                 - "sudo usermod -a -G microk8s ubuntu"
                 - "sudo chown -f -R ubuntu ~/.kube"
