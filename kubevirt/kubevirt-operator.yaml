@@ -105,11 +105,26 @@ spec:
                     - type: string
                     pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                     x-kubernetes-int-or-string: true
+                  defaultRuntimeClass:
+                    type: string
                   developerConfiguration:
                     description: DeveloperConfiguration holds developer options
                     properties:
                       cpuAllocationRatio:
                         type: integer
+                      diskVerification:
+                        description: DiskVerification holds container disks verification
+                          limits
+                        properties:
+                          memoryLimit:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                        required:
+                        - memoryLimit
+                        type: object
                       featureGates:
                         items:
                           type: string
@@ -287,6 +302,8 @@ spec:
                     items:
                       type: string
                     type: array
+                  virtualMachineInstancesPerNode:
+                    type: integer
                 type: object
               customizeComponents:
                 properties:
@@ -1987,11 +2004,26 @@ spec:
                     - type: string
                     pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
                     x-kubernetes-int-or-string: true
+                  defaultRuntimeClass:
+                    type: string
                   developerConfiguration:
                     description: DeveloperConfiguration holds developer options
                     properties:
                       cpuAllocationRatio:
                         type: integer
+                      diskVerification:
+                        description: DiskVerification holds container disks verification
+                          limits
+                        properties:
+                          memoryLimit:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                        required:
+                        - memoryLimit
+                        type: object
                       featureGates:
                         items:
                           type: string
@@ -2169,6 +2201,8 @@ spec:
                     items:
                       type: string
                     type: array
+                  virtualMachineInstancesPerNode:
+                    type: integer
                 type: object
               customizeComponents:
                 properties:
@@ -4144,6 +4178,14 @@ rules:
   - list
   - watch
 - apiGroups:
+  - cdi.kubevirt.io
+  resources:
+  - datasources
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
   - ""
   resources:
   - configmaps
@@ -4240,6 +4282,8 @@ rules:
   resources:
   - virtualmachineinstances/addvolume
   - virtualmachineinstances/removevolume
+  - virtualmachineinstances/freeze
+  - virtualmachineinstances/unfreeze
   verbs:
   - get
   - update
@@ -4581,12 +4625,12 @@ spec:
         - "2"
         env:
         - name: OPERATOR_IMAGE
-          value: quay.io/kubevirt/virt-operator:v0.43.0
+          value: quay.io/kubevirt/virt-operator:v0.44.0
         - name: WATCH_NAMESPACE
           valueFrom:
             fieldRef:
               fieldPath: metadata.annotations['olm.targetNamespaces']
-        image: quay.io/kubevirt/virt-operator:v0.43.0
+        image: quay.io/kubevirt/virt-operator:v0.44.0
         imagePullPolicy: IfNotPresent
         name: virt-operator
         ports:
