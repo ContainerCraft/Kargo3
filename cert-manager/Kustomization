@@ -8,3 +8,4 @@ commonLabels:
   app: kargo
 resources:
 - cert-manager.yaml
+- cert-manager.crds.yaml
