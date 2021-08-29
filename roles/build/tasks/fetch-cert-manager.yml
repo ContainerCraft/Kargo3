@@ -17,4 +17,5 @@
    #release: 'master'
   with_items:
     - '{{ import.cert_manager.operator }}' 
+    - '{{ import.cert_manager.cr }}' 
 
