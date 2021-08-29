@@ -29,9 +29,10 @@ import:
     dest: '{{ dir.source }}/hostpath-provisioner'
     url: 'https://github.com/kubevirt/hostpath-provisioner-operator/releases/download'
   cert_manager:
-    operator: 'deploy/cert-manager.yaml'
+    cr: 'cert-manager.crds.yaml'
+    operator: 'cert-manager.yaml'
     dest: '{{ dir.source }}/cert-manager'
-    url: 'https://raw.githubusercontent.com/kubevirt/hyperconverged-cluster-operator'
+    url: 'https://github.com/jetstack/cert-manager/releases/download'
   meta:
     webhooks: 'deploy/webhooks.yaml'
     service_account: 'deploy/service_account.yaml'
