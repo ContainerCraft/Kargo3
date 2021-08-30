@@ -60,8 +60,11 @@ kubectl create namespace kargo
 ```
 kubectl kustomize https://github.com/ContainerCraft/Kargo.git | kubectl apply -f - ; sleep 30 ;\
 kubectl kustomize https://github.com/ContainerCraft/Kargo.git | kubectl apply -f - ; sleep 30 ;\
-kubectl kustomize https://github.com/ContainerCraft/Kargo.git | kubectl apply -f - ; sleep 30 ;\
 kubectl kustomize https://github.com/ContainerCraft/Kargo.git | kubectl apply -f - 
+```
+  - Install Cert Manager if not already installed
+```sh
+kubectl kustomize https://github.com/ContainerCraft/Kargo/cert-manager | kubectl apply -f -
 ```
 ---------------------------------------------------------------------------
 ## OPTIONAL:
