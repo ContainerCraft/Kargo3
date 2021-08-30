@@ -4,11 +4,11 @@ kind: Kustomization
 metadata:
   name: kargo
 commonLabels:
-  app: "containercraft.io/kargo"
+  containercraft.io/project: "kargo"
 resources:
 - cdi
 - meta
 - kubevirt
 - hostpath-provisioner
 - cluster-network-addons
-- cert-manager
+#- cert-manager
