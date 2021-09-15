@@ -2,8 +2,6 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  labels:
-    kubevirt.io: ""
   name: cluster-network-addons-operator
   namespace: cluster-network-addons
 
@@ -52,8 +50,6 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  labels:
-    kubevirt.io: ""
   name: cluster-network-addons-operator
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -104,8 +100,6 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  labels:
-    kubevirt.io: ""
   name: cluster-network-addons-operator
   namespace: cluster-network-addons
 roleRef:
@@ -121,7 +115,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    networkaddonsoperator.network.kubevirt.io/version: 0.53.7
+    networkaddonsoperator.network.kubevirt.io/version: 0.59.0
+  labels:
+    prometheus.cnao.io: ""
   name: cluster-network-addons-operator
   namespace: cluster-network-addons
 spec:
@@ -134,35 +130,35 @@ spec:
   template:
     metadata:
       annotations:
-        description: cluster-network-addons-operator manages the lifecycle of different
-          Kubernetes network components on top of Kubernetes cluster
+        description: cluster-network-addons-operator manages the lifecycle of different Kubernetes network components on top of Kubernetes cluster
       labels:
         name: cluster-network-addons-operator
+        prometheus.cnao.io: ""
     spec:
       containers:
       - env:
         - name: MULTUS_IMAGE
           value: quay.io/kubevirt/cluster-network-addon-multus@sha256:32867c73cda4d605651b898dc85fea67d93191c47f27e1ad9e9f2b9041c518de
         - name: LINUX_BRIDGE_IMAGE
-          value: quay.io/kubevirt/cni-default-plugins@sha256:a90902cf3e5154424148bf3ba3c1bf90316cc77a54042cf6584fe8aedbe6daec
+          value: quay.io/kubevirt/cni-default-plugins@sha256:b6906c6b4d783d0418db5ad7dad601129b7d99917edc7533999c960e6df828ec
         - name: LINUX_BRIDGE_MARKER_IMAGE
-          value: quay.io/kubevirt/bridge-marker@sha256:91da5ba9546f9917f69c70f28e214797bcd4ce6741201bb5b96e6c60fe38b911
+          value: quay.io/kubevirt/bridge-marker@sha256:9d90a5bd051d71429b6d9fc34112081fe64c6d3fb02221e18ebe72d428d58092
         - name: NMSTATE_HANDLER_IMAGE
-          value: quay.io/nmstate/kubernetes-nmstate-handler@sha256:a43e4132ace4e2f1752b927bfb2cff98ddba9c9c897fa5a886bf288881710e9a
+          value: quay.io/nmstate/kubernetes-nmstate-handler@sha256:1184cf21f3fc0bbc327bb9281157ce72706c655cf3c7a822d3cc3a18d32ca67f
         - name: OVS_CNI_IMAGE
-          value: quay.io/kubevirt/ovs-cni-plugin@sha256:631b9151909cc12fe7e4d750e41ab831b06834773a46c5fa7ba95c670df39623
+          value: quay.io/kubevirt/ovs-cni-plugin@sha256:1e100c9584044c93c78020b4e4d037f26bbc8cc5b04e51c881ee5d7db5b117fe
         - name: OVS_MARKER_IMAGE
-          value: quay.io/kubevirt/ovs-cni-marker@sha256:e7cb2e986aef5191827901a8c8c25b75171e1b5df42f9ce2713996d4e5779d83
+          value: quay.io/kubevirt/ovs-cni-marker@sha256:abf8d51df5904e7a01743524e75c8abdd41922f75fa0093e9fdd01fdfc22ac72
         - name: KUBEMACPOOL_IMAGE
-          value: quay.io/kubevirt/kubemacpool@sha256:fc432bf7d0ca51923cb66ea764cfff3ea2a2c90d92f16ed7e07c13d5171aebd2
+          value: quay.io/kubevirt/kubemacpool@sha256:9c885072d4be4924abe542a008b33492aa81806b950f22634c314d258f9b8789
         - name: MACVTAP_CNI_IMAGE
           value: quay.io/kubevirt/macvtap-cni@sha256:e34cc796dee2e300f866d6f5b563361253ce89226eaf9eb0c3bc792f5481b8df
         - name: OPERATOR_IMAGE
-          value: quay.io/kubevirt/cluster-network-addons-operator:v0.53.7
+          value: quay.io/kubevirt/cluster-network-addons-operator:v0.59.0
         - name: OPERATOR_NAME
           value: cluster-network-addons-operator
         - name: OPERATOR_VERSION
-          value: 0.53.7
+          value: 0.59.0
         - name: OPERATOR_NAMESPACE
           valueFrom:
             fieldRef:
@@ -176,9 +172,17 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         - name: WATCH_NAMESPACE
-        image: quay.io/kubevirt/cluster-network-addons-operator:v0.53.7
+        - name: MONITORING_NAMESPACE
+          value: openshift-monitoring
+        - name: MONITORING_SERVICE_ACCOUNT
+          value: prometheus-k8s
+        image: quay.io/kubevirt/cluster-network-addons-operator:v0.59.0
         imagePullPolicy: Always
         name: cluster-network-addons-operator
+        ports:
+        - containerPort: 8080
+          name: metrics
+          protocol: TCP
         resources:
           requests:
             cpu: 50m
