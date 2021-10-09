@@ -2373,7 +2373,7 @@ spec:
       containers:
         - name: hostpath-provisioner-operator
           # Replace this with the built image name
-          image: quay.io/kubevirt/hostpath-provisioner-operator:v0.10.0
+          image: quay.io/kubevirt/hostpath-provisioner-operator:v0.10.1
           command:
           - hostpath-provisioner-operator
           imagePullPolicy: Always
