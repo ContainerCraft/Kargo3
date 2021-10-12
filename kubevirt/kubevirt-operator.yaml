@@ -4192,14 +4192,6 @@ metadata:
   name: kubevirt-operator
 rules:
 - apiGroups:
-  - ""
-  resources:
-  - secrets
-  verbs:
-  - create
-  - get
-  - update
-- apiGroups:
   - kubevirt.io
   resources:
   - kubevirts
@@ -4361,14 +4353,6 @@ rules:
   - delete
   - update
   - patch
-- apiGroups:
-  - subresources.kubevirt.io
-  resources:
-  - virtualmachines/start
-  - virtualmachines/stop
-  - virtualmachines/restart
-  verbs:
-  - put
 - apiGroups:
   - subresources.kubevirt.io
   resources:
@@ -4939,12 +4923,12 @@ spec:
         - "2"
         env:
         - name: OPERATOR_IMAGE
-          value: quay.io/kubevirt/virt-operator:v0.45.0
+          value: quay.io/kubevirt/virt-operator:v0.46.0
         - name: WATCH_NAMESPACE
           valueFrom:
             fieldRef:
               fieldPath: metadata.annotations['olm.targetNamespaces']
-        image: quay.io/kubevirt/virt-operator:v0.45.0
+        image: quay.io/kubevirt/virt-operator:v0.46.0
         imagePullPolicy: IfNotPresent
         name: virt-operator
         ports:
@@ -4969,6 +4953,8 @@ spec:
         - mountPath: /etc/virt-operator/certificates
           name: kubevirt-operator-certs
           readOnly: true
+        - mountPath: /profile-data
+          name: profile-data
       priorityClassName: kubevirt-cluster-critical
       securityContext:
         runAsNonRoot: true
@@ -4981,3 +4967,5 @@ spec:
         secret:
           optional: true
           secretName: kubevirt-operator-certs
+      - emptyDir: {}
+        name: profile-data
