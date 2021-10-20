@@ -10,5 +10,5 @@ resources:
 - meta
 - kubevirt
 # hostpath-provisioner
-- cluster-network-addons
+# cluster-network-addons
 # cert-manager
