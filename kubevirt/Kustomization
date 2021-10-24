@@ -9,3 +9,4 @@ commonLabels:
 resources:
 - kubevirt-cr.yaml
 - kubevirt-operator.yaml
+- feature-gates.yaml
