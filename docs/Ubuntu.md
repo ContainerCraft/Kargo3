@@ -7,7 +7,9 @@
   - Minimum 512GB SSD
   - Minimum Intel Quad Core CPU
   - Hardware with Intel VT-d enabled
-    
+
+## NOTE:
+  - [manually mitigate /dev/kvm permissions](https://github.com/kubevirt/kubevirt/issues/4303#issuecomment-830365183)
 ------------------------------------------------------------------------
 ## Instructions - Ubuntu [microk8s] 'Single Node Cluster':
   - Notice: Do not install microk8s snap during Ubuntu OS Install process    
