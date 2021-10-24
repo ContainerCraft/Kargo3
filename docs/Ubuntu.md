@@ -12,7 +12,7 @@
 ## Prerequisites
   - Install Dependencies
 ```sh
-sudo apt install snapd cpu-checker iscsid network-manager qemu qemu-kvm libvirt-daemon libvirt-clients -y || sudo apt install snapd cpu-checker open-iscsi network-manager qemu qemu-kvm libvirt-daemon libvirt-clients -y
+sudo apt install vim snapd cpu-checker iscsid network-manager qemu qemu-kvm libvirt-daemon libvirt-clients -y || sudo apt install vim snapd cpu-checker open-iscsi network-manager qemu qemu-kvm libvirt-daemon libvirt-clients -y
 ```
   - Check if virtual extensions enabled
 ```sh
@@ -30,12 +30,14 @@ KVM acceleration can be used
   QEMU: Checking if device /dev/net/tun exists                               : PASS
   QEMU: Checking for device assignment IOMMU support                         : PASS
 ```
-  - Link resources to expected location
+  - Link kvm to expected location
 ```sh
 sudo ln -s /usr/bin/kvm /usr/libexec/qemu-kvm
-sudo ln -s /var/lib/kubelet/ /var/snap/microk8s/common/var/lib/kubelet/
 ```
   - Mitigate kubevirt [permissions restriction](https://github.com/kubevirt/kubevirt/issues/4303#issuecomment-830365183) on `/dev/kvm`
+```sh
+sudo ln -s /etc/apparmor.d/usr.sbin.libvirtd /etc/apparmor.d/disable/
+```
 ```sh
 cat <<EOF | base64 -d | gzip -d | sudo tee /etc/apparmor.d/usr.sbin.libvirtd && sudo systemctl reload apparmor.service
 H4sIAAAAAAAAA61YWY/bNhB+968Y7D7Ea0hWURQBWtSLtLkQoGmDzdGHojAocWQTpkiFpHzA8H/vkJJ8ysomKZDNrme+GQ45t2+FymTFEX51lWKpRJvMpE6ZvB882/7x5vdPbx4+7CY3UqRLYdzNYFAanQuJ0FA4JJU1iU2FSvakXLKZnQyZcyybT7mwmVYKM4f8DrYDgNv9oSy1zrDMCa1skjKL99fZPK3s/YD4GStZKqRwG1gIKaNTkkI3ZbwQqoNu2OqMatHNBD8nbmynCk8vNK8kdjBKb2kng2WZ66Ar0QnP5kbrCzy66sJMzrKpXqIxgp8r8iyDjE8tMpPNz7i5Xik0Z8RsTtTLY0v6eEYtFkqf25IT9MJAVnHhpisj3Ll9osymUmeLyPvzFv5E5Ehxow0sc6EvH8Wg1ZXx70W8QlfKgS5DWEyGZhUZK9kS7wDie0iiTggobekJ7wJku2QmiXam2gdt8hmLKhmNOS6DgqrW8EVkML/hAOXGknxhgalNbYKFSnE0kBAanAYvC4oVaCkq0HZbWmh/Fy+S1NZG3og+a/uVjEb9arZRsuvX0m9B0P5lU3rP3+sYjcKjUrautFmAoD+AigCyIjon85m5pD69gn56CaffUqgFNFWhJZNnFl3aG3pAB7f7cI3j8scSCkHgcGMfOkqsYWhR8QgMZij87d2mxEltGTDOzURphVAimslQshTlpFJUJXMylR8Ad+GkurLA0Cd0FP6+qyUPIlEf7Nm2KdpTH3m7XixXtmD2cy/mUPEfg258Hdd+tWKmmKyf5/LIDm7nYS0uHAZH6KPDzrVRgZoMb3zDuIngxqEpbjqeMTj2FTk200VBnsyCWxMCOKNlm8JxSjV3hvEcZYnm233edswkZMK01jqttd5du8Kx6X0KmsswKfUKmg4MK+HmlJ2oXhtWzkVmX72IgAuy2d+TbKd+YikEhaK4X1Hl8p+/L7Bbn/zzQ/wzi/N/R4/9K7zALRwnhrSajv5ckcFkYw6zCi0VWaop4Wa6omKBWWVCmwqd+v9IyLvmKa+cfGQgHR6Ea/VPvM4nkJJV+9lIWGjRfYF8EZOf0GxAohKoQqMJQ5ivQHvNlsYmhBX9YwShSM2FsY4wWWWBfFsrFGoW9Lk5NncYw+v6LivKDZhTIwXm3b6h+9IDCT+3tSeOSTaBMDr4tmJWxUIGAxOfoSN493EdePb0o8/hS0oAedulntEJ4oxzAG89LdrRTZPK9wibWTEV/ETZlrgR/Tz9aZesUcU+fylxvSL/0WktLY2jiz6hxsYOAK4xq/WOkmbUXcvY0ls1NaBT7blUuZmZKj2BNqiQvvFiWVwxz/8fMAe1y7m2Lq4smnhWVl8r5/vn40XIR0LntnnxED8PbS6kNFqvKDaoLE0xFaULW8SUG0ozM85+OdD+9oPgB/0Bi/IVxdKQklA3ecUotxUP2cQUYFoLgM0MCYeg87ODt6wdHULMj0CszaEbU/j7sKY3AZ1DKDqMHYp0GEeBIw1nbUiFQGNlyUyhDU3qVPsMRfU6LBXHeHTZHjfmeysoBzrANLEmCzQKZdJWo71wkiNzFWVW5zG9kgVz2Zzy9+slx6O9TD+wSXPbpHgToYfr+gDoZjW//Ru6JiXEuhcp9CnOP3GLmWu9sKHCFEdcn6J1SBzxjpvcnKmZfyAqfrQuwMePb17EfqvkYebeVzHfzAIWp20lpfHzsO9+fauqa+AXE+lydoDna392V/f29yJ/S35S7msQNNLEoTXC36fFXGoKK3f/zu0Bndtm96p8ZUW8soV7Tuc4H8zqGbZyo4t9e/Pg75yywjxx1HIbBZdT1eVXGo+VPOC9QFho6MaJo7pmwpJRB3K994zqLIOwjVP4vXv46/kuGSXUp1wVUjAIfEtUtWmzq9PjPRXe2JaYiVxk/pVE8H6oue03CDQHvEcE2sqZTB5e/vbi7csQcBwdE9KOT76YqVFk2dg/07i99v1gN/gPkQYz5VISAAA=
@@ -46,6 +48,7 @@ EOF
 ### 01. Install [microk8s] snap package
 ```sh
 sudo snap install microk8s --classic
+sudo ln -s /var/lib/kubelet/ /var/snap/microk8s/common/var/lib/kubelet/
 ```
 ### 02. Enable [microk8s] Plugins:
   - [CoreDNS plugin](https://microk8s.io/docs/addon-dns)
@@ -58,6 +61,7 @@ sudo microk8s enable multus       && sudo microk8s status --wait-ready
 ```
 ### 03. Enable Helm & Add Helm Repos
 ```sh
+sudo snap install helm --classic
 sudo microk8s enable helm3 && sudo microk8s status --wait-ready
 helm repo add jetstack https://charts.jetstack.io
 helm repo add ccio     https://containercraft.io/helm
@@ -74,6 +78,10 @@ sudo microk8s kubectl get nodes -owide
 ### 05. Create Namespace
 ```sh
 sudo microk8s kubectl create namespace kargo
+```
+### 06. Install Cert manager
+```sh
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --set installCRDs=true
 ```
 ### 06. Apply Kargo KubeVirt and Auxiliary service manifests
   - Note: applying manifest four times to compensate for CRD startup time
@@ -102,6 +110,9 @@ sudo curl --output /usr/local/bin/virtctl -L https://github.com/kubevirt/kubevir
 sudo chmod +x /usr/local/bin/virtctl
 ```
 ### c. Create a test VM
+  - Upload SSH Public Key for dynamic VM Injection
+```sh
+```
   - Deploy Ubuntu Test VM
 ```sh
 kubectl apply -f https://raw.githubusercontent.com/ContainerCraft/Kargo/master/test/test.yaml
