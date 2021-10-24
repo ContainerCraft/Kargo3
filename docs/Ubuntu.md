@@ -12,7 +12,7 @@
 ## Prerequisites
   - Install Dependencies
 ```sh
-sudo apt install vim snapd cpu-checker iscsid network-manager qemu qemu-kvm libvirt0 libvirt-daemon libvirt-clients libvirt-daemon-system -y || sudo apt install vim snapd cpu-checker open-iscsi network-manager qemu qemu-kvm libvirt0 libvirt-daemon libvirt-clients libvirt-daemon-system -y
+sudo apt install vim git snapd cpu-checker iscsid network-manager qemu qemu-kvm libvirt0 libvirt-daemon libvirt-clients libvirt-daemon-system -y || sudo apt install git vim snapd cpu-checker open-iscsi network-manager qemu qemu-kvm libvirt0 libvirt-daemon libvirt-clients libvirt-daemon-system -y
 ```
   - Check if virtual extensions enabled
 ```sh
@@ -92,13 +92,10 @@ helm install cert-manager jetstack/cert-manager --namespace cert-manager --creat
 ### 08. Apply Kargo KubeVirt and Auxiliary service manifests
   - Note: applying manifest four times to compensate for CRD startup time
 ```
-sudo microk8s kubectl kustomize https://github.com/ContainerCraft/Kargo.git | sudo microk8s kubectl apply -f -
+sudo microk8s kubectl kustomize https://github.com/ContainerCraft/Kargo | sudo microk8s kubectl apply -f -
 sudo microk8s status --wait-ready && sleep 30
-sudo microk8s kubectl kustomize https://github.com/ContainerCraft/Kargo.git | sudo microk8s kubectl apply -f -
+sudo microk8s kubectl kustomize https://github.com/ContainerCraft/Kargo | sudo microk8s kubectl apply -f -
 sudo microk8s status --wait-ready && sleep 30
-sudo microk8s kubectl kustomize https://github.com/ContainerCraft/Kargo.git | sudo microk8s kubectl apply -f -
-sudo microk8s status --wait-ready && sleep 30
-sudo microk8s kubectl kustomize https://github.com/ContainerCraft/Kargo.git | sudo microk8s kubectl apply -f -
 ```
 ---------------------------------------------------------------------------
 ## OPTIONAL:
