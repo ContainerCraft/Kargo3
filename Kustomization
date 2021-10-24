@@ -9,4 +9,4 @@ resources:
 - cdi
 - meta
 - kubevirt
-- cluster-network-addons
+# cluster-network-addons
