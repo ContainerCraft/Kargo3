@@ -12,7 +12,7 @@
 ## Prerequisites
   - Install Dependencies
 ```sh
-sudo apt install vim git snapd cpu-checker iscsid network-manager qemu qemu-kvm libvirt0 libvirt-daemon libvirt-clients libvirt-daemon-system -y || sudo apt install git vim snapd cpu-checker open-iscsi network-manager qemu qemu-kvm libvirt0 libvirt-daemon libvirt-clients libvirt-daemon-system -y
+sudo apt install vim git curl snapd cpu-checker iscsid network-manager qemu qemu-kvm libvirt0 libvirt-daemon libvirt-clients libvirt-daemon-system -y || sudo apt install git vim curl snapd cpu-checker open-iscsi network-manager qemu qemu-kvm libvirt0 libvirt-daemon libvirt-clients libvirt-daemon-system -y
 ```
   - Check if virtual extensions enabled
 ```sh
@@ -108,6 +108,11 @@ sudo chmod +x /usr/local/bin/virtctl
 ### c. Create a test VM
   - Upload SSH Public Key for dynamic VM Injection
 ```sh
+ls ~/.ssh/id_rsa.pub || ssh-keygen \
+kubectl create secret generic kargo-sshpubkey-ubuntu \
+    --namespace kargo --dry-run=client -oyaml \
+    --from-file=key1=$HOME/.ssh/id_rsa.pub \
+  | kubectl apply -f -
 ```
   - Deploy Ubuntu Test VM
 ```sh
