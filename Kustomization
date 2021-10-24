@@ -9,6 +9,4 @@ resources:
 - cdi
 - meta
 - kubevirt
-# hostpath-provisioner
-# cluster-network-addons
-# cert-manager
+- cluster-network-addons
