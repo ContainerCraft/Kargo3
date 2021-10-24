@@ -12,7 +12,7 @@
 ## Prerequisites
   - Install Dependencies
 ```sh
-sudo apt install vim snapd cpu-checker iscsid network-manager qemu qemu-kvm libvirt-daemon libvirt-clients -y || sudo apt install vim snapd cpu-checker open-iscsi network-manager qemu qemu-kvm libvirt-daemon libvirt-clients -y
+sudo apt install vim snapd cpu-checker iscsid network-manager qemu qemu-kvm libvirt0 libvirt-daemon libvirt-clients libvirt-daemon-system -y || sudo apt install vim snapd cpu-checker open-iscsi network-manager qemu qemu-kvm libvirt0 libvirt-daemon libvirt-clients libvirt-daemon-system -y
 ```
   - Check if virtual extensions enabled
 ```sh
@@ -59,7 +59,13 @@ sudo microk8s enable dns          && sudo microk8s status --wait-ready
 sudo microk8s enable host-access  && sudo microk8s status --wait-ready
 sudo microk8s enable multus       && sudo microk8s status --wait-ready
 ```
-### 03. Enable Helm & Add Helm Repos
+### 03. Install kubectl and write ~/kube/config
+```sh
+sudo snap install kubectl --classic
+mkdir -p ~/.kube && touch ~/.kube/config && chmod 600 ~/.kube/config && sudo microk8s config view >> ~/.kube/config
+kubectl --context microk8s get all -A
+```
+### 04. Enable Helm & Add Helm Repos
 ```sh
 sudo snap install helm --classic
 sudo microk8s enable helm3 && sudo microk8s status --wait-ready
@@ -69,21 +75,21 @@ helm repo update
 ```
 ------------------------------------------------------------------------
 ## Deploy Kargo
-### 04. Label Node(s)
+### 05. Label Node(s)
 ```
 sudo microk8s kubectl label nodes --all --overwrite node-role.kubernetes.io/kubevirt=''
 sudo microk8s kubectl label nodes --all --overwrite node-role.kubernetes.io/worker=''
 sudo microk8s kubectl get nodes -owide
 ```
-### 05. Create Namespace
+### 06. Create Namespace
 ```sh
 sudo microk8s kubectl create namespace kargo
 ```
-### 06. Install Cert manager
+### 07. Install Cert manager
 ```sh
 helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --set installCRDs=true
 ```
-### 06. Apply Kargo KubeVirt and Auxiliary service manifests
+### 08. Apply Kargo KubeVirt and Auxiliary service manifests
   - Note: applying manifest four times to compensate for CRD startup time
 ```
 sudo microk8s kubectl kustomize https://github.com/ContainerCraft/Kargo.git | sudo microk8s kubectl apply -f -
@@ -97,12 +103,6 @@ sudo microk8s kubectl kustomize https://github.com/ContainerCraft/Kargo.git | su
 ---------------------------------------------------------------------------
 ## OPTIONAL:
 
-### a. Install kubectl and write ~/kube/config
-```sh
-sudo snap install kubectl --classic
-mkdir -p ~/.kube && touch ~/.kube/config && chown 600 ~/.kube/config && sudo microk8s config view >> ~/.kube/config
-kubectl --context microk8s get all -A
-```
 ### b. Install virtctl
 ```sh
 export VIRTCTL_RELEASE=$(curl -s https://api.github.com/repos/kubevirt/kubevirt/releases/latest | awk -F '["v,]' '/tag_name/{print $5}')
