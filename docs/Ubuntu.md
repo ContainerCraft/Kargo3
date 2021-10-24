@@ -108,7 +108,7 @@ sudo chmod +x /usr/local/bin/virtctl
 ### c. Create a test VM
   - Upload SSH Public Key for dynamic VM Injection
 ```sh
-ls ~/.ssh/id_rsa.pub || ssh-keygen \
+touch ~/.ssh/id_rsa.pub || ssh-keygen
 kubectl create secret generic kargo-sshpubkey-ubuntu \
     --namespace kargo --dry-run=client -oyaml \
     --from-file=key1=$HOME/.ssh/id_rsa.pub \
