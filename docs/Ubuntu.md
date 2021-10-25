@@ -1,6 +1,6 @@
 # Kargo Quick Start | Ubuntu
 ## Host K8s & OS Support:
-  - Ubuntu Server 21.04+ with [microk8s]
+  - Ubuntu (Server or Desktop) 21.04+ with [microk8s]
     
 ## Hardware:
   - Minimum 32GB RAM
