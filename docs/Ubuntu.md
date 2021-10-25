@@ -183,10 +183,10 @@ network:
         - enp2s0
 ```
 
-### d. Install OpenEBS for Storage
-  - Used for configuring network bonds/bridges with kubernetes api yaml definitions
+### d. Install hostpath-provisioner as a basic storage provider   
 ```sh
-sudo microk8s enable openebs      && sudo microk8s status --wait-ready
+helm install hostpath-provisioner ccio/hostpath-provisioner --namespace hostpath-provisioner --create-namespace
+kubectl patch storageclass hostpath-provisioner -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 ```
 
 ### Have fun experimenting with your new hypervisor!
