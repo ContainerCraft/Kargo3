@@ -101,7 +101,7 @@ sudo microk8s kubectl create namespace kargo
 helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --set installCRDs=true
 ```
 ### 08. Apply Kargo KubeVirt and Auxiliary service manifests
-  - Note: applying manifest four times to compensate for CRD startup time
+  - Note: applying manifest twice to compensate for CRD configuration
 ```
 kubectl kustomize https://github.com/ContainerCraft/Kargo | kubectl apply -f -
 sudo microk8s status --wait-ready && sleep 10
