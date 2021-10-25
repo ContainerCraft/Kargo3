@@ -109,6 +109,7 @@ spec:
                 enp1s0:
                   dhcp4: true
                   dhcp6: false
+                  dhcp-identifier: mac
             userData: |
               #cloud-config
               hostname: ubuntu

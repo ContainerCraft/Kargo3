@@ -12,7 +12,16 @@
 ## Prerequisites
   - Install Dependencies
 ```sh
-sudo apt install vim git curl snapd cpu-checker iscsid network-manager qemu qemu-kvm libvirt0 libvirt-daemon libvirt-clients libvirt-daemon-system -y || sudo apt install git vim curl snapd cpu-checker open-iscsi network-manager qemu qemu-kvm libvirt0 libvirt-daemon libvirt-clients libvirt-daemon-system -y
+ sudo apt install git vim curl snapd cpu-checker iscsid network-manager qemu qemu-kvm libvirt0 libvirt-daemon libvirt-clients libvirt-daemon-system -y || sudo apt install git vim curl snapd cpu-checker open-iscsi network-manager qemu qemu-kvm libvirt0 libvirt-daemon libvirt-clients libvirt-daemon-system -y
+```
+  - Enhance KVM kernel arguments
+  - The following kernel argument snippet for Intel hardware can be configured in `/etc/default/grub`
+```sh
+GRUB_CMDLINE_LINUX_DEFAULT="cgroup_memory=1 cgroup_enable=cpuset cgroup_enable=memory systemd.unified_cgroup_hierarchy=0 intel_iommu=on iommu=pt rd.driver.pre=vfio-pci pci=realloc"
+```
+  - Rebuild grub bootloader
+```sh
+sudo update-grub
 ```
   - Check if virtual extensions enabled
 ```sh
@@ -36,18 +45,20 @@ sudo ln -s /usr/bin/kvm /usr/libexec/qemu-kvm
 ```
   - Mitigate kubevirt [permissions restriction](https://github.com/kubevirt/kubevirt/issues/4303#issuecomment-830365183) on `/dev/kvm`
 ```sh
-sudo ln -s /etc/apparmor.d/usr.sbin.libvirtd /etc/apparmor.d/disable/
+sudo vim /etc/apparmor.d/usr.sbin.libvirtd
 ```
 ```sh
-cat <<EOF | base64 -d | gzip -d | sudo tee /etc/apparmor.d/usr.sbin.libvirtd && sudo systemctl reload apparmor.service
-H4sIAAAAAAAAA61YWY/bNhB+968Y7D7Ea0hWURQBWtSLtLkQoGmDzdGHojAocWQTpkiFpHzA8H/vkJJ8ysomKZDNrme+GQ45t2+FymTFEX51lWKpRJvMpE6ZvB882/7x5vdPbx4+7CY3UqRLYdzNYFAanQuJ0FA4JJU1iU2FSvakXLKZnQyZcyybT7mwmVYKM4f8DrYDgNv9oSy1zrDMCa1skjKL99fZPK3s/YD4GStZKqRwG1gIKaNTkkI3ZbwQqoNu2OqMatHNBD8nbmynCk8vNK8kdjBKb2kng2WZ66Ar0QnP5kbrCzy66sJMzrKpXqIxgp8r8iyDjE8tMpPNz7i5Xik0Z8RsTtTLY0v6eEYtFkqf25IT9MJAVnHhpisj3Ll9osymUmeLyPvzFv5E5Ehxow0sc6EvH8Wg1ZXx70W8QlfKgS5DWEyGZhUZK9kS7wDie0iiTggobekJ7wJku2QmiXam2gdt8hmLKhmNOS6DgqrW8EVkML/hAOXGknxhgalNbYKFSnE0kBAanAYvC4oVaCkq0HZbWmh/Fy+S1NZG3og+a/uVjEb9arZRsuvX0m9B0P5lU3rP3+sYjcKjUrautFmAoD+AigCyIjon85m5pD69gn56CaffUqgFNFWhJZNnFl3aG3pAB7f7cI3j8scSCkHgcGMfOkqsYWhR8QgMZij87d2mxEltGTDOzURphVAimslQshTlpFJUJXMylR8Ad+GkurLA0Cd0FP6+qyUPIlEf7Nm2KdpTH3m7XixXtmD2cy/mUPEfg258Hdd+tWKmmKyf5/LIDm7nYS0uHAZH6KPDzrVRgZoMb3zDuIngxqEpbjqeMTj2FTk200VBnsyCWxMCOKNlm8JxSjV3hvEcZYnm233edswkZMK01jqttd5du8Kx6X0KmsswKfUKmg4MK+HmlJ2oXhtWzkVmX72IgAuy2d+TbKd+YikEhaK4X1Hl8p+/L7Bbn/zzQ/wzi/N/R4/9K7zALRwnhrSajv5ckcFkYw6zCi0VWaop4Wa6omKBWWVCmwqd+v9IyLvmKa+cfGQgHR6Ea/VPvM4nkJJV+9lIWGjRfYF8EZOf0GxAohKoQqMJQ5ivQHvNlsYmhBX9YwShSM2FsY4wWWWBfFsrFGoW9Lk5NncYw+v6LivKDZhTIwXm3b6h+9IDCT+3tSeOSTaBMDr4tmJWxUIGAxOfoSN493EdePb0o8/hS0oAedulntEJ4oxzAG89LdrRTZPK9wibWTEV/ETZlrgR/Tz9aZesUcU+fylxvSL/0WktLY2jiz6hxsYOAK4xq/WOkmbUXcvY0ls1NaBT7blUuZmZKj2BNqiQvvFiWVwxz/8fMAe1y7m2Lq4smnhWVl8r5/vn40XIR0LntnnxED8PbS6kNFqvKDaoLE0xFaULW8SUG0ozM85+OdD+9oPgB/0Bi/IVxdKQklA3ecUotxUP2cQUYFoLgM0MCYeg87ODt6wdHULMj0CszaEbU/j7sKY3AZ1DKDqMHYp0GEeBIw1nbUiFQGNlyUyhDU3qVPsMRfU6LBXHeHTZHjfmeysoBzrANLEmCzQKZdJWo71wkiNzFWVW5zG9kgVz2Zzy9+slx6O9TD+wSXPbpHgToYfr+gDoZjW//Ru6JiXEuhcp9CnOP3GLmWu9sKHCFEdcn6J1SBzxjpvcnKmZfyAqfrQuwMePb17EfqvkYebeVzHfzAIWp20lpfHzsO9+fauqa+AXE+lydoDna392V/f29yJ/S35S7msQNNLEoTXC36fFXGoKK3f/zu0Bndtm96p8ZUW8soV7Tuc4H8zqGbZyo4t9e/Pg75yywjxx1HIbBZdT1eVXGo+VPOC9QFho6MaJo7pmwpJRB3K994zqLIOwjVP4vXv46/kuGSXUp1wVUjAIfEtUtWmzq9PjPRXe2JaYiVxk/pVE8H6oue03CDQHvEcE2sqZTB5e/vbi7csQcBwdE9KOT76YqVFk2dg/07i99v1gN/gPkQYz5VISAAA=
-EOF
+  # append after aprox line 95
+  /usr/{lib,lib64,lib/qemu,libexec}/qemu-kvm PUx,
+```
+```sh
+sudo systemctl reload apparmor.service
 ```
 ---------------------------------------------------------------------------
 ## Install [Microk8s]:
 ### 01. Install [microk8s] snap package
 ```sh
-sudo snap install microk8s --classic
+sudo snap install microk8s --classic && sleep 8 && \
 sudo ln -s /var/lib/kubelet/ /var/snap/microk8s/common/var/lib/kubelet/
 ```
 ### 02. Enable [microk8s] Plugins:
@@ -108,7 +119,7 @@ sudo chmod +x /usr/local/bin/virtctl
 ### c. Create a test VM
   - Upload SSH Public Key for dynamic VM Injection
 ```sh
-touch ~/.ssh/id_rsa.pub || ssh-keygen
+ls ~/.ssh/id_rsa.pub >/dev/null || ssh-keygen
 kubectl create secret generic kargo-sshpubkey-ubuntu \
     --namespace kargo --dry-run=client -oyaml \
     --from-file=key1=$HOME/.ssh/id_rsa.pub \
@@ -128,20 +139,51 @@ kubectl get vmi -n kargo
 ```
   - Connect to Virtual Machine Console
 ```sh
-virtctl console -n kargo test
+virtctl console -n kargo ubuntu
 ```
 > Credentials: `ubuntu:ubuntu`
   - watch kargo events with this command
 
-### Install OpenEBS for Storage
+### d. Configure br0 interface
+  - [Netplan](https://netplan.io) static IP example for Ubuntu Server
+```sh
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+    enp0s31f6:
+      optional: true
+      dhcp4: false
+      dhcp6: false
+      dhcp-identifier: mac
+    enp2s0:
+      optional: true
+      dhcp4: false
+      dhcp6: false
+      dhcp-identifier: mac
+  bridges:
+    br0:
+      dhcp4: no
+      dhcp6: no
+      dhcp-identifier: mac
+      addresses: 
+        - 192.168.1.51/24
+      routes:
+        - to: default
+          via: 192.168.1.1
+      nameservers:
+        addresses:
+          - 192.168.1.1
+        search:
+          - home.arpa
+      interfaces:
+        - enp2s0
+```
+
+### e. Install OpenEBS for Storage
   - Used for configuring network bonds/bridges with kubernetes api yaml definitions
 ```sh
 sudo microk8s enable openebs      && sudo microk8s status --wait-ready
-```
-### Enhance KVM kernel arguments in /etc/default/grub
-  - Note: causes reboot
-```sh
-echo R1JVQl9ERUZBVUxUPTAKR1JVQl9USU1FT1VUPTAKR1JVQl9USU1FT1VUX1NUWUxFPWhpZGRlbgpHUlVCX0RJU1RSSUJVVE9SPWBsc2JfcmVsZWFzZSAtaSAtcyAyPiAvZGV2L251bGwgfHwgZWNobyBEZWJpYW5gCkdSVUJfQ01ETElORV9MSU5VWD0nY2dyb3VwX21lbW9yeT0xIGNncm91cF9lbmFibGU9Y3B1c2V0IGNncm91cF9lbmFibGU9bWVtb3J5IHN5c3RlbWQudW5pZmllZF9jZ3JvdXBfaGllcmFyY2h5PTAgaW50ZWxfaW9tbXU9b24gaW9tbXU9cHQgcmQuZHJpdmVyLnByZT12ZmlvLXBjaSBwY2k9cmVhbGxvYycK | base64 -d | sudo tee /etc/default/grub && sudo update-grub && sudo reboot
 ```
 
 ### Have fun experimenting with your new hypervisor!
