@@ -110,13 +110,13 @@ kubectl kustomize https://github.com/ContainerCraft/Kargo | kubectl apply -f -
 ---------------------------------------------------------------------------
 ## OPTIONAL:
 
-### b. Install virtctl
+### a. Install virtctl
 ```sh
 export VIRTCTL_RELEASE=$(curl -s https://api.github.com/repos/kubevirt/kubevirt/releases/latest | awk -F '["v,]' '/tag_name/{print $5}')
 sudo curl --output /usr/local/bin/virtctl -L https://github.com/kubevirt/kubevirt/releases/download/v${VIRTCTL_RELEASE}/virtctl-v${VIRTCTL_RELEASE}-linux-amd64
 sudo chmod +x /usr/local/bin/virtctl
 ```
-### c. Create a test VM
+### b. Create a test VM
   - Upload SSH Public Key for dynamic VM Injection
 ```sh
 ls ~/.ssh/id_rsa.pub >/dev/null || ssh-keygen
@@ -144,7 +144,7 @@ virtctl console -n kargo ubuntu
 > Credentials: `ubuntu:ubuntu`
   - watch kargo events with this command
 
-### d. Configure br0 interface
+### c. Configure br0 interface
   - [Netplan](https://netplan.io) static IP example for Ubuntu Server
 ```sh
 network:
@@ -180,7 +180,7 @@ network:
         - enp2s0
 ```
 
-### e. Install OpenEBS for Storage
+### d. Install OpenEBS for Storage
   - Used for configuring network bonds/bridges with kubernetes api yaml definitions
 ```sh
 sudo microk8s enable openebs      && sudo microk8s status --wait-ready
