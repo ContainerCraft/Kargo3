@@ -8,6 +8,9 @@
   - Minimum Intel Quad Core CPU
   - Hardware with Intel VT-d enabled
 
+## Hypervisor Utilization:
+![utilization](./img/utilization.png)
+
 ------------------------------------------------------------------------
 ## Prerequisites
   - Install Dependencies
