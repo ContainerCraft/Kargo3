@@ -1,0 +1,174 @@
+---
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: kargo-net-attach-def-br0
+  namespace: kargo
+spec:
+  config: >
+    {
+        "cniVersion": "0.3.1",
+        "name": "br0",
+        "plugins": [
+            {
+                "type": "bridge",
+                "bridge": "br0",
+                "ipam": {}
+            },
+            {
+                "type": "tuning"
+            }
+        ]
+    }
+---
+apiVersion: kubevirt.io/v1alpha3
+kind: VirtualMachine
+metadata:
+  name: ubuntu-br0-persistent-livemigrate-rdp
+  namespace: kargo
+  labels:
+    app: kargo
+spec:
+  running: true
+  dataVolumeTemplates:
+  - metadata:
+      name: ubuntu-br0-persistent-livemigrate-rdp-volume-vda-root
+      namespace: kargo
+    spec:
+      accessModes:
+      - ReadWriteMany
+      capacity:
+        storage: 128G
+      config:
+        featureGates:
+        - HonorWaitForFirstConsumer
+      pvc:
+        accessModes:
+        - ReadWriteMany
+        resources:
+          requests:
+            storage: 128G
+          limits:
+            storage: 128G
+        storageClassName: ceph-filesystem-ssd
+      source:
+        registry:
+          url: "docker://quay.io/containercraft/ubuntu:21.10"
+          imagePullPolicy: Always
+      persistentVolumeReclaimPolicy: Delete
+      storageClassName: ceph-filesystem-ssd
+      volumeMode: Block
+  template:
+    spec:
+      nodeSelector:
+        node-role.kubernetes.io/kubevirt: ""
+      domain:
+        clock:
+          utc: {}
+          timer: {}
+        cpu:
+          cores: 1
+          sockets: 1
+          threads: 6
+          model: host-passthrough
+          dedicatedCpuPlacement: false
+        devices:
+          rng: {}
+          autoattachPodInterface: false
+          autoattachSerialConsole: true
+          autoattachGraphicsDevice: true
+          networkInterfaceMultiqueue: false
+          disks:
+            - name: ubuntu-br0-persistent-livemigrate-rdp-disk-vda-root
+              bootOrder: 1
+              disk:
+                bus: virtio
+            - name: cloudinitdisk
+              disk:
+                bus: virtio
+          interfaces:
+          - name: enp1s0
+            model: virtio
+            bridge: {}
+        features:
+          acpi:
+            enabled: true
+          smm:
+            enabled: true
+        firmware:
+          bootloader:
+            efi:
+              secureBoot: true
+        machine:
+          type: q35
+        resources:
+          limits:
+            memory: 6G
+          requests:
+            memory: 6G
+            devices.kubevirt.io/kvm: "1"
+      hostname: ubuntu-br0-persistent-livemigrate-rdp
+      networks:
+      - name: enp1s0
+        multus:
+          networkName: kargo-net-attach-def-br0
+      terminationGracePeriodSeconds: 0
+      accessCredentials:
+      - sshPublicKey:
+          source:
+            secret:
+              secretName: kargo-sshpubkey-kc2user
+          propagationMethod:
+            qemuGuestAgent:
+              users:
+              - "kc2user"
+      volumes:
+        - name: ubuntu-br0-persistent-livemigrate-rdp-disk-vda-root
+          dataVolume:
+            name: ubuntu-br0-persistent-livemigrate-rdp-volume-vda-root
+        - name: cloudinitdisk
+          cloudInitNoCloud:
+            networkData: |
+              version: 2
+              ethernets:
+                enp1s0:
+                  dhcp4: true
+                  dhcp6: true
+                  dhcp-identifier: mac
+            userData: |
+              #cloud-config
+              hostname: ubuntu-br0-persistent-livemigrate-rdp
+              ssh_pwauth: true
+              disable_root: true
+              chpasswd:
+                list: |
+                   kc2user:kc2user
+                expire: False
+              users:
+                - name: kc2user
+                  shell: /bin/bash
+                  lock_passwd: false
+                  sudo: ['ALL=(ALL) NOPASSWD:ALL']
+                  groups: sudo,lxd,libvirt,microk8s,xrdp,docker,ssl-cert
+              growpart:
+                mode: auto
+                devices: ['/']
+                ignore_growroot_disabled: true
+              package_upgrade: true
+              packages:
+                - vim
+                - docker.io
+                - screenfetch
+                - ubuntu-desktop
+                - gnome-tweaks
+                - firefox
+                - xrdp
+              runcmd:
+                - "apt-get remove apport apport-gtk python3-apport python3-problem-report shim-signed apport-symptoms python3-systemd ansible -y --allow-remove-essential"
+                - "apt-get autoremove -y"
+                - "snap install helm kubectl --classic"
+                - "mkdir -p /home/kc2user/.kube"
+                - "chown -R kc2user:kc2user /home/kc2user/.kube"
+                - "screenfetch"
+                - "echo H4sIAAAAAAACA7WRwU7DMAyG73mKaHe6dRrTyKsghELibWYhjhy3gBDvTkIXtRJC4oJP8R/ntz/HUTziyeiPTxVBXokv2agb7SZZ6RKYxl0XrRi9Eh5gNYvWe4acje7vtl2/P3S3h65fb3f6X6L13c99I0UosofsGJMgxTJkHTDaFzA6vPkn3pRU3hNcbxLTM7gC4+FohyAqC7E9wWMiCkv2upLfrdvrUsE4AhcFWRXzIwb4i42HEV2trFQg5810av5VacL0LwucGhNSRPedM5E0g2TlbPS6ZQVrOe781mO+/OC5rqfs9v5BuTBkqWxxCEF9AXZkJoMrAgAA | base64 -d | gzip -d | lxd init --preseed"
+#               - "su -l kc2user -c 'gsettings set org.gnome.desktop.interface gtk-theme Yaru-dark'"

@@ -81,7 +81,7 @@ spec:
           requests:
             memory: 1G
             devices.kubevirt.io/kvm: "1"
-      hostname: ubuntu
+      hostname: ubuntu-br0
       networks:
       - name: enp1s0
         multus:
@@ -91,11 +91,11 @@ spec:
       - sshPublicKey:
           source:
             secret:
-              secretName: kargo-sshpubkey-ubuntu
+              secretName: kargo-sshpubkey-kc2user
           propagationMethod:
             qemuGuestAgent:
               users:
-              - "ubuntu"
+              - "kc2user"
       volumes:
         - name: containerdisk
           containerDisk:
@@ -108,19 +108,19 @@ spec:
               ethernets:
                 enp1s0:
                   dhcp4: true
-                  dhcp6: false
+                  dhcp6: true
                   dhcp-identifier: mac
             userData: |
               #cloud-config
-              hostname: ubuntu
+              hostname: ubuntu-br0
               ssh_pwauth: true
               disable_root: true
               chpasswd:
                 list: |
-                   ubuntu:ubuntu
+                   kc2user:kc2user
                 expire: False
               users:
-                - name: ubuntu
+                - name: kc2user
                   shell: /bin/bash
                   lock_passwd: false
                   sudo: ['ALL=(ALL) NOPASSWD:ALL']
@@ -136,3 +136,4 @@ spec:
                 - screenfetch
               runcmd:
                 - "echo H4sIAAAAAAACA7WRwU7DMAyG73mKaHe6dRrTyKsghELibWYhjhy3gBDvTkIXtRJC4oJP8R/ntz/HUTziyeiPTxVBXokv2agb7SZZ6RKYxl0XrRi9Eh5gNYvWe4acje7vtl2/P3S3h65fb3f6X6L13c99I0UosofsGJMgxTJkHTDaFzA6vPkn3pRU3hNcbxLTM7gC4+FohyAqC7E9wWMiCkv2upLfrdvrUsE4AhcFWRXzIwb4i42HEV2trFQg5810av5VacL0LwucGhNSRPedM5E0g2TlbPS6ZQVrOe781mO+/OC5rqfs9v5BuTBkqWxxCEF9AXZkJoMrAgAA | base64 -d | gzip -d | lxd init --preseed"
+                - "screenfetch"
