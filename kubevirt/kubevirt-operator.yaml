@@ -4466,6 +4466,14 @@ rules:
   - list
   - watch
 - apiGroups:
+  - flavor.kubevirt.io
+  resources:
+  - virtualmachineflavors
+  - virtualmachineclusterflavors
+  verbs:
+  - list
+  - watch
+- apiGroups:
   - ""
   resources:
   - configmaps
@@ -4631,6 +4639,14 @@ rules:
   - list
   - watch
 - apiGroups:
+  - flavor.kubevirt.io
+  resources:
+  - virtualmachineflavors
+  - virtualmachineclusterflavors
+  verbs:
+  - list
+  - watch
+- apiGroups:
   - kubevirt.io
   resources:
   - virtualmachineinstances
@@ -4755,6 +4771,20 @@ rules:
   - watch
   - deletecollection
 - apiGroups:
+  - flavor.kubevirt.io
+  resources:
+  - virtualmachineflavors
+  - virtualmachineclusterflavors
+  verbs:
+  - get
+  - delete
+  - create
+  - update
+  - patch
+  - list
+  - watch
+  - deletecollection
+- apiGroups:
   - subresources.kubevirt.io
   resources:
   - virtualmachineinstances/console
@@ -4814,6 +4844,19 @@ rules:
   - list
   - watch
 - apiGroups:
+  - flavor.kubevirt.io
+  resources:
+  - virtualmachineflavors
+  - virtualmachineclusterflavors
+  verbs:
+  - get
+  - delete
+  - create
+  - update
+  - patch
+  - list
+  - watch
+- apiGroups:
   - kubevirt.io
   resources:
   - kubevirts
@@ -4846,6 +4889,15 @@ rules:
   - virtualmachinesnapshots
   - virtualmachinesnapshotcontents
   - virtualmachinerestores
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - flavor.kubevirt.io
+  resources:
+  - virtualmachineflavors
+  - virtualmachineclusterflavors
   verbs:
   - get
   - list
@@ -4899,7 +4951,7 @@ spec:
         scheduler.alpha.kubernetes.io/critical-pod: ""
       labels:
         kubevirt.io: virt-operator
-        prometheus.kubevirt.io: ""
+        prometheus.kubevirt.io: "true"
       name: virt-operator
     spec:
       affinity:
@@ -4923,12 +4975,12 @@ spec:
         - "2"
         env:
         - name: OPERATOR_IMAGE
-          value: quay.io/kubevirt/virt-operator:v0.46.1
+          value: quay.io/kubevirt/virt-operator:v0.47.0
         - name: WATCH_NAMESPACE
           valueFrom:
             fieldRef:
               fieldPath: metadata.annotations['olm.targetNamespaces']
-        image: quay.io/kubevirt/virt-operator:v0.46.1
+        image: quay.io/kubevirt/virt-operator:v0.47.0
         imagePullPolicy: IfNotPresent
         name: virt-operator
         ports:
