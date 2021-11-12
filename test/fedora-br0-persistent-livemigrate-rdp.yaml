@@ -165,4 +165,6 @@ spec:
                 - "systemctl stop firewalld"
                 - "systemctl disable firewalld"
                 - "screenfetch"
+                - "/bin/fedora-third-party enable"
+                - "touch /.autorelabel"
 #               - "dnf install -y xrdp gnome-tweaks @workstation-product-environment"
