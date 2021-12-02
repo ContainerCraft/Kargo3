@@ -3,10 +3,16 @@ kind: HostPathProvisioner
 metadata:
   name: hostpath-provisioner
 spec:
-  imagePullPolicy: IfNotPresent
-  pathConfig:
-    path: "/var/hpvolumes"
-    useNamingPrefix: false
+  imagePullPolicy: Always
+  storagePools:
+    - name: "local"
+      pvcTemplate:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
+      path: "/var/hpvolumes"
   workload:
     nodeSelector:
       kubernetes.io/os: linux
