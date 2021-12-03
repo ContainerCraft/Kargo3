@@ -2784,9 +2784,9 @@ spec:
             - name: OPERATOR_IMAGE
               value: "quay.io/kubevirt/hostpath-provisioner-operator:v0.11.0"
             - name: PROVISIONER_IMAGE
-              value: "quay.io/kubevirt/hostpath-provisioner:v0.10.0"
+              value: "quay.io/kubevirt/hostpath-provisioner:v0.11.0"
             - name: CSI_PROVISIONER_IMAGE
-              value: "quay.io/kubevirt/hostpath-csi-driver:v0.10.0"
+              value: "quay.io/kubevirt/hostpath-csi-driver:v0.11.0"
             - name: EXTERNAL_HEALTH_MON_IMAGE
               value: "k8s.gcr.io/sig-storage/csi-external-health-monitor-controller:v0.3.0"
             - name: NODE_DRIVER_REG_IMAGE
