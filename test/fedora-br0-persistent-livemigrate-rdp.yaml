@@ -3,7 +3,7 @@ apiVersion: k8s.cni.cncf.io/v1
 kind: NetworkAttachmentDefinition
 metadata:
   name: kargo-net-attach-def-br0
-  namespace: kargo
+  namespace: default
 spec:
   config: >
     {
@@ -25,7 +25,7 @@ apiVersion: kubevirt.io/v1alpha3
 kind: VirtualMachine
 metadata:
   name: fedora-br0-persistent-livemigrate-rdp
-  namespace: kargo
+  namespace: default
   labels:
     app: kargo
 spec:
@@ -33,7 +33,7 @@ spec:
   dataVolumeTemplates:
   - metadata:
       name: fedora-br0-persistent-livemigrate-rdp-volume-vda-root
-      namespace: kargo
+      namespace: default
     spec:
       accessModes:
       - ReadWriteMany
