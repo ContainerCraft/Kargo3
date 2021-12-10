@@ -10,7 +10,6 @@ spec:
   running: true
   template:
     spec:
-      evictionStrategy: LiveMigrate
       nodeSelector:
         node-role.kubernetes.io/kubevirt: ""
       domain:
