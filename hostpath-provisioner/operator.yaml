@@ -43,7 +43,6 @@ rules:
   - hostpath-provisioner
   - hostpath-provisioner-admin
   - hostpath-provisioner-admin-csi
-  - hostpath-provisioner-health-check
   verbs:
   - update
   - delete
@@ -73,7 +72,6 @@ rules:
   - hostpath-provisioner
   - hostpath-provisioner-admin
   - hostpath-provisioner-admin-csi
-  - hostpath-provisioner-health-check
   verbs:
   - update
   - delete
@@ -355,7 +353,6 @@ rules:
   - hostpath-provisioner
   - hostpath-provisioner-admin
   - hostpath-provisioner-admin-csi
-  - hostpath-provisioner-health-check
   - hostpath-provisioner-monitoring
   verbs:
   - update
@@ -368,7 +365,6 @@ rules:
   - hostpath-provisioner
   - hostpath-provisioner-admin
   - hostpath-provisioner-admin-csi
-  - hostpath-provisioner-health-check
   - hostpath-provisioner-monitoring
   verbs:
   - update
@@ -2738,7 +2734,7 @@ spec:
               name: "metrics"
               protocol: "TCP"
           # Replace this with the built image name
-          image: quay.io/kubevirt/hostpath-provisioner-operator:latest
+          image: quay.io/kubevirt/hostpath-provisioner-operator:v0.12.0
           command:
           - hostpath-provisioner-operator
           imagePullPolicy: Always
@@ -2782,13 +2778,11 @@ spec:
             - name: OPERATOR_NAME
               value: "hostpath-provisioner-operator"
             - name: OPERATOR_IMAGE
-              value: "quay.io/kubevirt/hostpath-provisioner-operator:v0.11.0"
+              value: "quay.io/kubevirt/hostpath-provisioner-operator:v0.12.0"
             - name: PROVISIONER_IMAGE
-              value: "quay.io/kubevirt/hostpath-provisioner:v0.11.0"
+              value: "quay.io/kubevirt/hostpath-provisioner:v0.12.0"
             - name: CSI_PROVISIONER_IMAGE
-              value: "quay.io/kubevirt/hostpath-csi-driver:v0.11.0"
-            - name: EXTERNAL_HEALTH_MON_IMAGE
-              value: "k8s.gcr.io/sig-storage/csi-external-health-monitor-controller:v0.3.0"
+              value: "quay.io/kubevirt/hostpath-csi-driver:v0.12.0"
             - name: NODE_DRIVER_REG_IMAGE
               value: "k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.2.0"
             - name: LIVENESS_PROBE_IMAGE
