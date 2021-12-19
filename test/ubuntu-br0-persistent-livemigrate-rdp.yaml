@@ -38,7 +38,7 @@ spec:
       accessModes:
       - ReadWriteMany
       capacity:
-        storage: 128G
+        storage: 32G
       config:
         featureGates:
         - HonorWaitForFirstConsumer
@@ -47,9 +47,9 @@ spec:
         - ReadWriteMany
         resources:
           requests:
-            storage: 128G
+            storage: 32G
           limits:
-            storage: 128G
+            storage: 32G
         storageClassName: ceph-filesystem-ssd
       source:
         registry:

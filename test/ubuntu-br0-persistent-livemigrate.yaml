@@ -38,7 +38,7 @@ spec:
       accessModes:
       - ReadWriteMany
       capacity:
-        storage: 64G
+        storage: 32G
       config:
         featureGates:
         - HonorWaitForFirstConsumer
@@ -47,16 +47,16 @@ spec:
         - ReadWriteMany
         resources:
           requests:
-            storage: 64G
+            storage: 32G
           limits:
-            storage: 64G
-        storageClassName: ceph-filesystem-ssd
+            storage: 32G
+        storageClassName: hostpath-provisioner
       source:
         registry:
           url: "docker://docker.io/containercraft/ubuntu:21.10"
           imagePullPolicy: Always
       persistentVolumeReclaimPolicy: Delete
-      storageClassName: ceph-filesystem-ssd
+      storageClassName: hostpath-provisioner
       volumeMode: Block
   template:
     spec:
