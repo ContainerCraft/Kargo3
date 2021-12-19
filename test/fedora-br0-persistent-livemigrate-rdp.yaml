@@ -53,7 +53,7 @@ spec:
         storageClassName: ceph-filesystem-ssd
       source:
         registry:
-          url: "docker://docker.io/containercraft/fedora:35-dev"
+          url: "docker://docker.io/containercraft/fedora:35"
           imagePullPolicy: Always
       persistentVolumeReclaimPolicy: Delete
       storageClassName: ceph-filesystem-ssd

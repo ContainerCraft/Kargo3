@@ -53,7 +53,7 @@ spec:
         storageClassName: hostpath-provisioner
       source:
         registry:
-          url: "docker://quay.io/containercraft/ubuntu:21.10"
+          url: "docker://docker.io/containercraft/ubuntu:21.10"
           imagePullPolicy: Always
       persistentVolumeReclaimPolicy: Delete
       storageClassName: hostpath-provisioner

@@ -74,7 +74,7 @@ spec:
       volumes:
         - name: containerdisk
           containerDisk:
-            image: quay.io/containercraft/ubuntu:21.10
+            image: docker.io/containercraft/ubuntu:21.10
             imagePullPolicy: Always
         - name: cloudinitdisk
           cloudInitNoCloud:
