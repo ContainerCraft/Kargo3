@@ -3,7 +3,6 @@ apiVersion: k8s.cni.cncf.io/v1
 kind: NetworkAttachmentDefinition
 metadata:
   name: kargo-net-attach-def-br0
-  namespace: kargo
 spec:
   config: >
     {
@@ -26,14 +25,12 @@ apiVersion: kubevirt.io/v1alpha3
 kind: VirtualMachine
 metadata:
   name: ubuntu-br0
-  namespace: kargo
   labels:
     app: kargo
 spec:
   running: true
   template:
     spec:
-      evictionStrategy: LiveMigrate
       nodeSelector:
         node-role.kubernetes.io/kubevirt: ""
       domain:
@@ -129,11 +126,9 @@ spec:
                 mode: auto
                 devices: ['/']
                 ignore_growroot_disabled: true
-              package_upgrade: true
+              package_upgrade: false
               packages:
-                - vim
                 - docker.io
-                - screenfetch
               runcmd:
                 - "echo H4sIAAAAAAACA7WRwU7DMAyG73mKaHe6dRrTyKsghELibWYhjhy3gBDvTkIXtRJC4oJP8R/ntz/HUTziyeiPTxVBXokv2agb7SZZ6RKYxl0XrRi9Eh5gNYvWe4acje7vtl2/P3S3h65fb3f6X6L13c99I0UosofsGJMgxTJkHTDaFzA6vPkn3pRU3hNcbxLTM7gC4+FohyAqC7E9wWMiCkv2upLfrdvrUsE4AhcFWRXzIwb4i42HEV2trFQg5810av5VacL0LwucGhNSRPedM5E0g2TlbPS6ZQVrOe781mO+/OC5rqfs9v5BuTBkqWxxCEF9AXZkJoMrAgAA | base64 -d | gzip -d | lxd init --preseed"
                 - "screenfetch"
