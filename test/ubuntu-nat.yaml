@@ -3,7 +3,6 @@ apiVersion: kubevirt.io/v1alpha3
 kind: VirtualMachine
 metadata:
   name: ubuntu-nat
-  namespace: kargo
   labels:
     app: kargo
 spec:
