@@ -2845,11 +2845,11 @@ spec:
             - name: OPERATOR_NAME
               value: "hostpath-provisioner-operator"
             - name: OPERATOR_IMAGE
-              value: "quay.io/kubevirt/hostpath-provisioner-operator:latest"
+              value: "quay.io/kubevirt/hostpath-provisioner-operator:v0.14.0"
             - name: PROVISIONER_IMAGE
-              value: "quay.io/kubevirt/hostpath-provisioner:latest"
+              value: "quay.io/kubevirt/hostpath-provisioner:v0.14.0"
             - name: CSI_PROVISIONER_IMAGE
-              value: "quay.io/kubevirt/hostpath-csi-driver:latest"
+              value: "quay.io/kubevirt/hostpath-csi-driver:v0.14.0"
             - name: NODE_DRIVER_REG_IMAGE
               value: "k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.2.0"
             - name: LIVENESS_PROBE_IMAGE
