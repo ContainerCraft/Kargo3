@@ -9,6 +9,7 @@ spec:
   linuxBridge: {}
   macvtap: {}
   multus: {}
+  multusDynamicNetworks: {}
   ovs: {}
   ##############################################################################
   # CCIO Appended
