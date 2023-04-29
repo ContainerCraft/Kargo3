@@ -116,7 +116,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    networkaddonsoperator.network.kubevirt.io/version: 0.85.1
+    networkaddonsoperator.network.kubevirt.io/version: 0.85.2
   labels:
     prometheus.cnao.io: "true"
   name: cluster-network-addons-operator
@@ -144,7 +144,7 @@ spec:
         - name: MULTUS_DYNAMIC_NETWORKS_CONTROLLER_IMAGE
           value: ghcr.io/k8snetworkplumbingwg/multus-dynamic-networks-controller@sha256:ef8fe97a52eb9b3c03e99979a42cf2edaa7b3365cb3eb4dd1654b1bb9e73d7a3
         - name: LINUX_BRIDGE_IMAGE
-          value: quay.io/kubevirt/cni-default-plugins@sha256:2871dd1b09cec8cb669a2008611cb81c6f9098eb674c757725154ae002ea7ab6
+          value: quay.io/kubevirt/cni-default-plugins@sha256:406b43253fb5d45f50d1543879353822e3f746e2794b65ab30754e800386b76d
         - name: LINUX_BRIDGE_MARKER_IMAGE
           value: quay.io/kubevirt/bridge-marker@sha256:5d24c6d1ecb0556896b7b81c7e5260b54173858425777b7a84df8a706c07e6d2
         - name: OVS_CNI_IMAGE
@@ -160,11 +160,11 @@ spec:
         - name: CORE_DNS_IMAGE
           value: k8s.gcr.io/coredns/coredns@sha256:5b6ec0d6de9baaf3e92d0f66cd96a25b9edbce8716f5f15dcd1a616b3abd590e
         - name: OPERATOR_IMAGE
-          value: quay.io/kubevirt/cluster-network-addons-operator:v0.85.1
+          value: quay.io/kubevirt/cluster-network-addons-operator:v0.85.2
         - name: OPERATOR_NAME
           value: cluster-network-addons-operator
         - name: OPERATOR_VERSION
-          value: 0.85.1
+          value: 0.85.2
         - name: OPERATOR_NAMESPACE
           valueFrom:
             fieldRef:
@@ -182,7 +182,7 @@ spec:
           value: openshift-monitoring
         - name: MONITORING_SERVICE_ACCOUNT
           value: prometheus-k8s
-        image: quay.io/kubevirt/cluster-network-addons-operator:v0.85.1
+        image: quay.io/kubevirt/cluster-network-addons-operator:v0.85.2
         imagePullPolicy: Always
         name: cluster-network-addons-operator
         resources:
