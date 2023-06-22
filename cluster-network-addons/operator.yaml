@@ -349,7 +349,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    networkaddonsoperator.network.kubevirt.io/version: 0.86.0
+    networkaddonsoperator.network.kubevirt.io/version: 0.86.1
   labels:
     prometheus.cnao.io: "true"
   name: cluster-network-addons-operator
@@ -393,11 +393,11 @@ spec:
         - name: CORE_DNS_IMAGE
           value: registry.k8s.io/coredns/coredns@sha256:a0ead06651cf580044aeb0a0feba63591858fb2e43ade8c9dea45a6a89ae7e5e
         - name: OPERATOR_IMAGE
-          value: quay.io/kubevirt/cluster-network-addons-operator:v0.86.0
+          value: quay.io/kubevirt/cluster-network-addons-operator:v0.86.1
         - name: OPERATOR_NAME
           value: cluster-network-addons-operator
         - name: OPERATOR_VERSION
-          value: 0.86.0
+          value: 0.86.1
         - name: OPERATOR_NAMESPACE
           valueFrom:
             fieldRef:
@@ -417,7 +417,7 @@ spec:
           value: prometheus-k8s
         - name: RUNBOOK_URL_TEMPLATE
           value: https://kubevirt.io/monitoring/runbooks/
-        image: quay.io/kubevirt/cluster-network-addons-operator:v0.86.0
+        image: quay.io/kubevirt/cluster-network-addons-operator:v0.86.1
         imagePullPolicy: Always
         name: cluster-network-addons-operator
         resources:
