@@ -595,7 +595,7 @@ spec:
                                 in spec.resourceClaims, that are used by this container.
                                 \n This is an alpha field and requires enabling the
                                 DynamicResourceAllocation feature gate. \n This field
-                                is immutable."
+                                is immutable. It can only be set for containers."
                               items:
                                 description: ResourceClaim references one entry in
                                   PodSpec.ResourceClaims.
@@ -1844,7 +1844,7 @@ spec:
               name: "metrics"
               protocol: "TCP"
           # Replace this with the built image name
-          image: quay.io/kubevirt/hostpath-provisioner-operator:v0.16.0
+          image: quay.io/kubevirt/hostpath-provisioner-operator:latest
           command:
           - hostpath-provisioner-operator
           imagePullPolicy: Always
@@ -1895,11 +1895,11 @@ spec:
             - name: OPERATOR_NAME
               value: "hostpath-provisioner-operator"
             - name: OPERATOR_IMAGE
-              value: "quay.io/kubevirt/hostpath-provisioner-operator:v0.16.0"
+              value: "quay.io/kubevirt/hostpath-provisioner-operator:latest"
             - name: PROVISIONER_IMAGE
-              value: "quay.io/kubevirt/hostpath-provisioner:v0.16.0"
+              value: "quay.io/kubevirt/hostpath-provisioner:latest"
             - name: CSI_PROVISIONER_IMAGE
-              value: "quay.io/kubevirt/hostpath-csi-driver:v0.16.0"
+              value: "quay.io/kubevirt/hostpath-csi-driver:latest"
             - name: NODE_DRIVER_REG_IMAGE
               value: "registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.2.0"
             - name: LIVENESS_PROBE_IMAGE
