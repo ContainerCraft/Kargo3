@@ -48,6 +48,17 @@ spec:
                     description: RangeStart defines the first mac in range
                     type: string
                 type: object
+              kubeSecondaryDNS:
+                description: KubeSecondaryDNS plugin allows to support FQDN for VMI's
+                  secondary networks
+                properties:
+                  domain:
+                    description: Domain defines the FQDN domain
+                    type: string
+                  nameServerIP:
+                    description: NameServerIp defines the name server IP
+                    type: string
+                type: object
               linuxBridge:
                 description: LinuxBridge plugin allows users to create a bridge and
                   add the host and the container to it
@@ -59,6 +70,10 @@ spec:
               multus:
                 description: Multus plugin enables attaching multiple network interfaces
                   to Pods in Kubernetes
+                type: object
+              multusDynamicNetworks:
+                description: A multus extension enabling hot-plug and hot-unplug of
+                  Pod interfaces
                 type: object
               ovs:
                 description: Ovs plugin allows users to define Kubernetes networks
@@ -1674,6 +1689,17 @@ spec:
                     description: RangeStart defines the first mac in range
                     type: string
                 type: object
+              kubeSecondaryDNS:
+                description: KubeSecondaryDNS plugin allows to support FQDN for VMI's
+                  secondary networks
+                properties:
+                  domain:
+                    description: Domain defines the FQDN domain
+                    type: string
+                  nameServerIP:
+                    description: NameServerIp defines the name server IP
+                    type: string
+                type: object
               linuxBridge:
                 description: LinuxBridge plugin allows users to create a bridge and
                   add the host and the container to it
@@ -1685,6 +1711,10 @@ spec:
               multus:
                 description: Multus plugin enables attaching multiple network interfaces
                   to Pods in Kubernetes
+                type: object
+              multusDynamicNetworks:
+                description: A multus extension enabling hot-plug and hot-unplug of
+                  Pod interfaces
                 type: object
               ovs:
                 description: Ovs plugin allows users to define Kubernetes networks

@@ -6,9 +6,11 @@ metadata:
 spec:
   imagePullPolicy: IfNotPresent
   kubeMacPool: {}
+  kubeSecondaryDNS: {}
   linuxBridge: {}
   macvtap: {}
   multus: {}
+  multusDynamicNetworks: {}
   ovs: {}
   ##############################################################################
   # CCIO Appended
